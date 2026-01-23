@@ -1,18 +1,28 @@
 import clsx from 'clsx'
-import React from 'react'
-import { CgSpinner } from 'react-icons/cg'
-import { IoIosArrowRoundForward } from "react-icons/io";
+import {CgSmileNone, CgSpinner} from 'react-icons/cg'
+import {HiArrowRight} from 'react-icons/hi'
 
 const AuthButton = ({
    isLoading = false,
-   text,
+   text, 
    className
 }) => {
-   return (
-      <button disabled={isLoading} type={isLoading ? 'button' : 'submit'} className={clsx("w-full py-2 bg-black text-white rounded outline-none cursor-pointer disabled:cursor-no-drop flex items-center justify-center gap-x-1", className, "disabled:bg-gray-800")}><span>{text}</span> {
-         isLoading ? <CgSpinner className='animate-spin text-xl' /> : <IoIosArrowRoundForward className='text-xl' />
-      } </button>
-   )
+  return (
+    <button
+      disabled={isLoading}
+      type={isLoading ? "button" : "submit"}
+      className={clsx("w-full py-2 bg-orange-400 text-white rounded outline-none group cursor-pointer disabled:cursor-no-drop disabled:opacity-55 hover:bg-orange-500 flex justify-center items-center font-medium transition-colors"
+         , className
+      )}
+    > 
+      <span>{text}</span> {
+         isLoading ?
+         <CgSpinner className='inline ml-2 animate-spin text-2xl' />
+         : <CgSmileNone className='inline ml-2 group-hover:animate-bounce text-2xl'/>
+      }
+      
+    </button>
+  )
 }
 
 export default AuthButton
