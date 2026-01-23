@@ -11,7 +11,7 @@ class RolesEnum(str, Enum):
     customer = "customer"
 
 class User(BaseModel):
-    name: str = Field(...)
+    name: Optional[str] = None
     email: EmailStr = Field(...)
     password: str = Field(...)
     role: RolesEnum = Field(default=RolesEnum.customer)
@@ -20,12 +20,6 @@ class User(BaseModel):
     dob: Optional[date] = None
     created_at: datetime = Field(default_factory=lambda: datetime.now(VN_TZ))
 
-    @field_validator('name')
-    @classmethod
-    def validate_name(cls, value: str) -> str:
-        if len(value) < 2:
-            raise ValueError("Tên phải chứa ít nhất 2 ký tự")
-        return value.strip()
 
 class RegisterUser(User):
     pass
