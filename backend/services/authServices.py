@@ -60,3 +60,9 @@ def loginService(data: dict):
         "msg": "Đăng nhập thành công",
         "token": token
     }
+
+def profileService(id: str):
+    user = client.table('users').select('id','name','email','role','phone','address','dob','created_at').eq('id', id).execute()
+    if not user.data:
+        raise HttpException(status_code=404, detail="Tài khoản không tồn tại")
+    return user.data[0]
