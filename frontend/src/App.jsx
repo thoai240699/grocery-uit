@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import AuthLayout from './layout/AuthLayout'
 import Dashboard from './pages/Dashboard'
 import CartPage from './pages/CartPage'
+import ProtectedLayout from './layout/ProtectedLayout'
 
 const App = () => {
   return (
@@ -16,9 +17,13 @@ const App = () => {
       <Routes>
         <Route path='/' element={<MainLayout />}>
           <Route index element={<HomePage />} />
-          <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/cart' element={<CartPage/>} /> 
         </Route>
+
+        <Route path='/' element={<ProtectedLayout />}>
+          <Route path='/dashboard' element={<Dashboard />} />
+        </Route>
+
 
         <Route element={<AuthLayout />} >
           <Route path='/login' element={<LoginUser />} />

@@ -14,8 +14,8 @@ const RegisterUser = () => {
   const [isHide, setIsHide] = useState(true);
   const [isConfirmHide, setIsConfirmHide] = useState(true);
 
-  // const navigate = useNavigate()
-  // const { fetchUserProfile } = useAuthContext();
+  const navigate = useNavigate()
+  const { fetchUserProfile } = useAuthContext();
 
   const onSubmitHandler = async (values, helpers) => {
     const { confirmPassword, ...registerData } = values;
@@ -25,9 +25,11 @@ const RegisterUser = () => {
       const data = response.data
 
       toast.success(data.msg)
+      localStorage.setItem("token", data.token)
+      await fetchUserProfile()
 
       helpers.resetForm()
-      
+      navigate("/dashboard")
     } catch (e) {
       toast.error(e.response?.data?.detail || e.message)
     } finally {

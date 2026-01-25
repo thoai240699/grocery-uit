@@ -4,15 +4,15 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useNavigate } from 'react-router-dom'
 
-const AuthLayout = () => {
+const ProtectedLayout = () => {
 
     const user = useSelector(UserSlicePath)
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (user) {
-            navigate("/dashboard")
+        if (!user) {
+            navigate("/login")
         } else {
             setLoading(false)
         }
@@ -31,4 +31,4 @@ const AuthLayout = () => {
     )
 }
 
-export default AuthLayout
+export default ProtectedLayout
