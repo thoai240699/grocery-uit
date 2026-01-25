@@ -24,7 +24,7 @@ class User(BaseModel):
 class RegisterUser(User):
     pass
 
-class Login(BaseModel):
+class LoginUser(BaseModel):
     email: EmailStr = Field(...)
     password: str = Field(...)
     
