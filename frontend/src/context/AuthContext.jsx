@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser, UserSlicePath } from "@/redux/slice/user.slice";
+import { removeUser, setUser, UserSlicePath } from "@/redux/slice/user.slice";
 import { toast } from "react-toastify";
 import { axiosClient } from "@/utils/axiosClient";
 import LoaderComponent from "@/components/ui/LoaderComponent";
@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 const AuthContext = createContext({
   user: null,
   fetchUserProfile: () => {},
+  logoutUser: () => {},
 });
 
 export const useAuthContext = () => useContext(AuthContext);
@@ -21,19 +22,19 @@ export const AuthContextProvider = ({ children }) => {
 
   const fetchUserProfile = async () => {
     try {
-        setLoading(true);
-      const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token") || "";
 
-      if (!token) return null;
-      const response = await axiosClient.get("/auth/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = response.data;
-      dispatch(setUser(data));
+        if (!token) return 
+          
+        const response = await axiosClient.get("/auth/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = response.data;
+        dispatch(setUser(data));
     } catch (e) {
-      toast.error(e.response?.data?.detail || e.message);
+        toast.error(e.response?.data?.detail || e.message);
     } finally{
         setLoading(false);
     }
@@ -42,6 +43,13 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     fetchUserProfile();
   }, []);
+
+  const logoutUser = () => {
+    localStorage.removeItem("token");
+    dispatch(removeUser());
+    toast.success("Đăng xuất thành công");
+    navigate("/");
+  }
 
   if (loading) {
     return (
@@ -52,7 +60,7 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, fetchUserProfile }}>
+    <AuthContext.Provider value={{ user, fetchUserProfile, logoutUser }}>
       {children}
     </AuthContext.Provider>
   );

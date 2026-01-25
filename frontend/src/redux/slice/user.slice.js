@@ -9,10 +9,13 @@ export const UserSlice = createSlice({
     reducers: {
         setUser(state, action) {
             state.user = action.payload;
+        },
+        removeUser(state) {
+            state.user = null;
         }
     }
 });
 
-export const {setUser} = UserSlice.actions;
+export const {setUser, removeUser} = UserSlice.actions;
 export const UserSlicePath = (store) => store.UserSlice.user
 

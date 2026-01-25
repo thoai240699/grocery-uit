@@ -21,6 +21,9 @@ const LoginUser = () => {
       setIsLoading(true)
       const response = await axiosClient.post("/auth/login", values)
       const data = response.data
+      
+      localStorage.setItem("token", data.token)
+      await fetchUserProfile()
       toast.success(data.msg)
       
       helpers.resetForm()

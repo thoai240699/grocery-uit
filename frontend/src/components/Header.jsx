@@ -2,8 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { PiShoppingCartThin } from "react-icons/pi";
 import Logo from './ui/Logo';
+import { UserSlicePath } from '@/redux/slice/user.slice';
+import { useSelector } from 'react-redux';
+import { useAuthContext } from '@/context/AuthContext';
 
 const Header = () => {
+  const user = useSelector(UserSlicePath);
+  const {logoutUser} = useAuthContext()
+
   return (
     <>
       <header className="text-gray-600 body-font">
@@ -13,9 +19,13 @@ const Header = () => {
             <Link to={'/'} className="mr-5 hover:text-gray-900">
               Về chúng tôi
             </Link>
-            <Link to={'/login'} className="mr-5 hover:text-gray-900">
+            {user ? <>
+            <button onClick={logoutUser} className="mr-5 hover:text-gray-900 cursor-pointer">
+              Đăng xuất
+            </button>
+            </> : <Link to={'/login'} className="mr-5 hover:text-gray-900">
               Đăng nhập
-            </Link>
+            </Link>}
           </nav>
           <Link
             to={'/cart'}
