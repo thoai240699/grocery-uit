@@ -17,9 +17,7 @@ const ProtectedLayout = () => {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
-  const { isToggle, isCollapse } = useSelector(
-    state => SidebarSlicePath(state) || { isToggle: false, isCollapse: false }
-  )
+  const { isToggle, isCollapse } = useSelector(SidebarSlicePath)
 
   useEffect(() => {
     if (!user) {
@@ -48,6 +46,12 @@ const ProtectedLayout = () => {
           backgroundColor: '#FFEDD5', // bg-orange-100
           color: '#7C2D12', // text-orange-900-ish
           borderRight: '1px solid #FED7AA', // border-orange-200
+          transition: 'width 0.3s ease-in-out, left 0.3s ease-in-out, right 0.3s ease-in-out',
+          '&.ps-collapsed': {
+            '.ps-menu-label, .ps-submenu-content': {
+              display: 'none',
+            },
+          },
         }}
       >
         <Menu
@@ -124,7 +128,7 @@ const ProtectedLayout = () => {
         </Menu>
       </Sidebar>
 
-      <main className="px-4 w-full">
+      <main className="p-4 flex-grow">
         <div className="bg-white mt-5 rounded-lg shadow-sm p-4 border border-orange-100">
           <Outlet />
         </div>
