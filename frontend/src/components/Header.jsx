@@ -20,7 +20,8 @@ const Header = () => {
               Về chúng tôi
             </Link>
             {user ? <>
-            <button onClick={logoutUser} className="mr-5 hover:text-gray-900 cursor-pointer">
+            <Link to={'/dashboard'} className="mr-5 hover:text-gray-900">Quản lý</Link>
+            <button onClick={logoutUser} className="mr-5 hover:text-gray-900">
               Đăng xuất
             </button>
             </> : <Link to={'/login'} className="mr-5 hover:text-gray-900">

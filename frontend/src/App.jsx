@@ -10,20 +10,21 @@ import AuthLayout from './layout/AuthLayout'
 import Dashboard from './pages/Dashboard'
 import CartPage from './pages/CartPage'
 import ProtectedLayout from './layout/ProtectedLayout'
+import ProfileUser from './pages/ProfileUser'
 
 const App = () => {
   return (
     <>
       <Routes>
-        <Route path='/' element={<MainLayout />}>
+        <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
-          <Route path='/cart' element={<CartPage/>} /> 
-        </Route>
+          <Route path="cart" element={<CartPage/>} />
 
-        <Route path='/' element={<ProtectedLayout />}>
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route element={<ProtectedLayout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="profile" element={<ProfileUser />} />
+          </Route>
         </Route>
-
 
         <Route element={<AuthLayout />} >
           <Route path='/login' element={<LoginUser />} />
