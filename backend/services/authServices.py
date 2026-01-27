@@ -5,6 +5,10 @@ import uuid
 import jwt
 from datetime import datetime, timedelta, timezone
 from config.Env import ENVConfig
+import cloudinary.uploader
+from typing import Annotated
+from fastapi import UploadFile, File
+import config.cloudinaryConfig
 
 def hash_password(password: str) -> str:
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode('utf-8')
@@ -62,7 +66,29 @@ def loginService(data: dict):
     }
 
 def profileService(id: str):
-    user = client.table('users').select('id','name','email','role','phone','address','dob','created_at').eq('id', id).execute()
+    user = client.table('users').select('id','name','email','role','phone','address','dob','created_at','avatar_image_uri','avatar_public_id').eq('id', id).execute()
     if not user.data:
         raise HttpException(status_code=404, detail="Tài khoản không tồn tại")
     return user.data[0]
+
+def updateAvatarService(avatar:Annotated[UploadFile,File()],userId:str):
+        user = client.table('users').select('id', 'avatar_image_uri', 'avatar_public_id').eq('id', userId).execute()
+        if not user.data:
+            raise HttpException(status_code=404, detail="Tài khoản không tồn tại")
+        user_data = user.data[0]
+
+        if user_data.get('avatar_public_id'):
+            cloudinary.uploader.destroy(user_data['avatar_public_id'])
+
+        contents = avatar.file.read()
+        upload_result = cloudinary.uploader.upload(contents, folder="user_profile")
+
+        update_result = client.table('users').update({
+            "avatar_image_uri": upload_result['secure_url'],
+            "avatar_public_id": upload_result['public_id'],
+        }).eq('id', userId).execute()
+        if not update_result.data:
+            raise HttpException(status_code=400, detail="Không cập nhật được avatar")
+        return {
+            "msg": "Cập nhật avatar thành công",
+        }

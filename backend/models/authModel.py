@@ -19,6 +19,8 @@ class User(BaseModel):
     address: Optional[str] = None
     dob: Optional[date] = None
     created_at: datetime = Field(default_factory=lambda: datetime.now(VN_TZ))
+    avatar_image_uri: Optional[str] = None
+    avatar_public_id: Optional[str] = None
 
 
 class RegisterUser(User):
