@@ -1,9 +1,10 @@
+import AvatarComponent from '@/components/AvatarComponent'
 import React from 'react'
 
-const profile = () => {
+const ProfileUser = () => {
   return (
-    <div>profile</div>
+    <AvatarComponent />
   )
 }
 
-export default profile
+export default ProfileUser
