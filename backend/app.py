@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from routes.authRoute import router as AuthRouter
+from routes.productRoute import router as ProductRouter
+
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -14,6 +16,8 @@ app.add_middleware(
 
 
 app.include_router(AuthRouter)
+
+app.include_router(ProductRouter, prefix="/products", tags=["products"])
 
 @app.get('/',tags=['health'])
 def healthRoute():

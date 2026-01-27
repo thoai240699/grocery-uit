@@ -1,13 +1,4 @@
-from app.repositories.product_repo import query_products, query_product_by_id
-from app.core.supabase import supabase
-
-
-def get_product_by_id(db, product_id):
-    item = query_product_by_id(db, product_id)
-
-    return {
-        "item": item
-    }
+from config.db import client
 
 def get_products_2(**filters):
     page = filters.get("page", 1)
@@ -22,7 +13,7 @@ def get_products_2(**filters):
     end = start + limit - 1
 
     query = (
-        supabase
+        client
         .table("products")
         .select(
             "id,name,price,stock,image_url,"
