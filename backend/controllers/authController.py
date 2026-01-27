@@ -1,10 +1,10 @@
 from services.authServices import registerService
 from services.authServices import loginService
 from services.authServices import profileService
+from services.authServices import updateAvatarService
 from models.authModel import RegisterUser
 from models.authModel import LoginUser
 from fastapi import HTTPException
-from fastapi.encoders import jsonable_encoder
 
 def registerController(data: RegisterUser):
     try:
@@ -26,3 +26,8 @@ def profileController(id: str):
     except Exception  as  e:
         raise HTTPException(status_code=400,detail= f"{e}")
     
+def  updateAvatarController(avatar, userId):
+    try:
+        return updateAvatarService(avatar,userId)
+    except Exception as e:
+        raise HTTPException(status_code=400,detail= f"{e}")
