@@ -25,7 +25,7 @@ def registerService(data: dict):
     data['password'] = hash_password(data['password'])
 
     result = client.table('users').insert(data).execute()
-    print(result)
+
     if not result.data:
         raise ValueError("Không tạo được user")
     user_data = result.data[0]
@@ -92,3 +92,21 @@ def updateAvatarService(avatar:Annotated[UploadFile,File()],userId:str):
         return {
             "msg": "Cập nhật avatar thành công",
         }
+
+def updateBasicDetailsService(data: dict, userId: str):
+    update_data = {}
+    allowed_fields = ['name', 'phone', 'address', 'dob']
+    for field in allowed_fields:
+        if field in data:
+            update_data[field] = data[field]
+    
+    if not update_data:
+        raise HttpException(status_code=400, detail="Không có dữ liệu để cập nhật")
+    
+    update_result = client.table('users').update(update_data).eq('id', userId).execute()
+    if not update_result.data:
+        raise HttpException(status_code=400, detail="Không cập nhật được thông tin")
+    
+    return {
+        "msg": "Cập nhật thông tin thành công",
+    }

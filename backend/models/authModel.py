@@ -29,4 +29,18 @@ class RegisterUser(User):
 class LoginUser(BaseModel):
     email: EmailStr = Field(...)
     password: str = Field(...)
-    
+
+class UpdateBasicDetails(BaseModel):
+    name: Optional[str] = None
+    phone: Optional[str] = None
+    address: Optional[str] = None
+    dob: Optional[date] = None
+
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, value: Optional[str]):
+        if value is None:
+            return value
+        if len(value.strip()) < 3:
+            raise ValueError("Tên phải có ít nhất 3 ký tự")
+        return value
