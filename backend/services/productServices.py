@@ -1,6 +1,7 @@
+
 from config.db import client
 
-def get_products_2(**filters):
+def get_products(**filters):
     page = filters.get("page", 1)
     limit = filters.get("limit", 10)
     category = filters.get("category")
@@ -47,3 +48,19 @@ def get_products_2(**filters):
         "total": res.count,
         "items": res.data
     }
+
+def get_product_by_id(product_id):
+    query = (
+        client
+        .table("products")
+        .select(
+            "id,name, price,stock,image_url,"
+            "category:categories(name,slug)"
+        )
+        .eq("id", product_id)
+        .single()
+    )
+
+    res = query.execute()
+
+    return res.data

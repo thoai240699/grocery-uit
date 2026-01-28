@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from fastapi import Depends, HTTPException, Query
 import logging
 
-from services.productServices import get_products_2
+from services.productServices import get_products, get_product_by_id
 
 router = APIRouter()
 
@@ -19,7 +19,7 @@ def list_products(
     sort: str | None = None,
 ):
     try:
-        return get_products_2(
+        return get_products(
             page=page,
             limit=limit,
             category=category,
@@ -32,14 +32,14 @@ def list_products(
         logger.exception(e)
         raise HTTPException(status_code=404, detail="Item not found")
 
-# @router.get("/id/{product_id}")
-# def get_product(
-#     product_id: str,
-# ):
-#     try:
-#         return get_product_by_id(
-#             product_id
-#         )
-#     except Exception as e:
-#         logger.exception(e)
-#         raise HTTPException(status_code=404, detail="Item not found")
+@router.get("/id/{product_id}")
+def get_product(
+    product_id: str,
+):
+    try:
+        return get_product_by_id(
+            product_id
+        )
+    except Exception as e:
+        logger.exception(e)
+        raise HTTPException(status_code=404, detail="Item not found")
