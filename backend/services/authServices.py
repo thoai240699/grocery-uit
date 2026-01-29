@@ -94,12 +94,16 @@ def updateAvatarService(avatar:Annotated[UploadFile,File()],userId:str):
         }
 
 def updateBasicDetailsService(data: dict, userId: str):
-    update_data = {}
-    allowed_fields = ['name', 'phone', 'address', 'dob']
-    for field in allowed_fields:
-        if field in data:
-            update_data[field] = data[field]
+    user = client.table('users').select('id').eq('id', userId).execute()
+    if not user.data:
+        raise HttpException(status_code=404, detail="Tài khoản không tồn tại")
     
+    allowed_fields = {'name', 'phone', 'address', 'dob'}
+    update_data = {
+        k: v for k, v in data.items() if k in allowed_fields and v is not None
+    }
+    print(update_data)
+
     if not update_data:
         raise HttpException(status_code=400, detail="Không có dữ liệu để cập nhật")
     
