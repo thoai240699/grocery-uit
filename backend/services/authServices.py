@@ -102,7 +102,6 @@ def updateBasicDetailsService(data: dict, userId: str):
     update_data = {
         k: v for k, v in data.items() if k in allowed_fields and v is not None
     }
-    print(update_data)
 
     if not update_data:
         raise HttpException(status_code=400, detail="Không có dữ liệu để cập nhật")

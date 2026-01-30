@@ -2,9 +2,13 @@ from fastapi import APIRouter
 from fastapi import Depends, HTTPException, Query
 import logging
 
+from models.productModel import Product
 from services.productServices import get_products, get_product_by_id
+from controllers.productController import addProductController
+from middlewares.VerifyUser import ValidateUser
+from models import authModel
 
-router = APIRouter()
+router = APIRouter(prefix="/api/v1/products",tags=['Product'])
 
 logger = logging.getLogger(__name__)
 
@@ -43,3 +47,7 @@ def get_product(
     except Exception as e:
         logger.exception(e)
         raise HTTPException(status_code=404, detail="Item not found")
+
+@router.post("/add")
+def addProductView(product: Product, userId: str = Depends(ValidateUser(authModel.RolesEnum.staff))):
+    return addProductController(product.dict())

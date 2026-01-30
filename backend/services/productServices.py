@@ -1,4 +1,3 @@
-
 from config.db import client
 
 def get_products(**filters):
@@ -64,3 +63,11 @@ def get_product_by_id(product_id):
     res = query.execute()
 
     return res.data
+
+def addProductService(product_data):
+    result = client.table("products").insert(product_data).execute()
+    if not result.data:
+        raise ValueError("Không thể thêm sản phẩm")
+    return {
+        "msg": "Đã thêm sản phẩm"
+    } 

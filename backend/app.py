@@ -18,9 +18,8 @@ app.add_middleware(
 
 
 app.include_router(AuthRouter)
-
-app.include_router(ProductRouter, prefix="/products", tags=["products"])
-app.include_router(CategoryRouter, prefix="/categories", tags=["categories"])
+app.include_router(ProductRouter)
+app.include_router(CategoryRouter)
 
 @app.get('/',tags=['health'])
 def healthRoute():
