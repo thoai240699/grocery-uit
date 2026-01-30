@@ -8,7 +8,7 @@ from middlewares.VerifyUser import ValidateUser
 from models import authModel
 from models.categoryModel import Category
 
-router = APIRouter(prefix="/api/v1/categories",tags=['Product'])
+router = APIRouter(prefix="/api/v1/categories",tags=['categories'])
 
 logger = logging.getLogger(__name__)
 
@@ -22,5 +22,5 @@ def list_categories():
         raise HTTPException(status_code=404, detail="Item not found")
 
 @router.post("/add")
-def create_category(category: Category, userId: str = Depends(ValidateUser(authModel.RolesEnum.staff))):
+def addCategoryView(category: Category, userId: str = Depends(ValidateUser(authModel.RolesEnum.staff))):
     return addCategoryController(category.dict())

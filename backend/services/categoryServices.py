@@ -7,7 +7,7 @@ def get_categories():
         client
         .table("categories")
         .select(
-            "name,slug"
+            "id,name,slug"
         )
     )
 

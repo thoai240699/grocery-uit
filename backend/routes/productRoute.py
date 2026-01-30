@@ -50,4 +50,5 @@ def get_product(
 
 @router.post("/add")
 def addProductView(product: Product, userId: str = Depends(ValidateUser(authModel.RolesEnum.staff))):
+    logger.info(f"Received payload: {product.dict()}")
     return addProductController(product.dict())
