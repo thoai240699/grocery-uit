@@ -61,16 +61,16 @@ const ProtectedLayout = () => {
               padding: '10px 16px',
               color: '#7C2D12',
               '&:hover': {
-                backgroundColor: '#FED7AA', // orange-200
+                backgroundColor: '#FED7AA',
                 color: '#7C2D12',
               },
               '&.active': {
-                backgroundColor: '#FB923C', // orange-400
+                backgroundColor: '#FB923C',
                 color: '#FFFFFF',
               },
             },
             icon: {
-              color: '#EA580C', // orange-600
+              color: '#EA580C',
               fontSize: '1.5rem',
             },
           }}
@@ -106,7 +106,7 @@ const ProtectedLayout = () => {
           ) : (
             <>
               <SubMenu
-                label="Products"
+                label="Sản phẩm"
                 icon={<MdProductionQuantityLimits className="text-2xl text-orange-600" />}
               >
                 <MenuItem component={<Link to="/AddProduct" />}>
@@ -114,6 +114,9 @@ const ProtectedLayout = () => {
                 </MenuItem>
                 <MenuItem component={<Link to="/AllProduct" />}>
                   Tất cả sản phẩm
+                </MenuItem>
+                <MenuItem component={<Link to="/AddProductCategories" />}>
+                  Thêm danh mục sản phẩm
                 </MenuItem>
               </SubMenu>
             </>

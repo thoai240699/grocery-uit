@@ -42,7 +42,6 @@ const ProfileUser = () => {
       const token = localStorage.getItem("token") || "";
       if (!token) throw new Error("Vui lòng đăng nhập");
 
-      // chỉ gửi field có dữ liệu (tránh overwrite thành "")
       const payload = {};
       if (form.name.trim() && form.name.trim() !== initialForm.name) payload.name = form.name.trim();
       if (form.phone.trim() && form.phone.trim() !== initialForm.phone) payload.phone = form.phone.trim();
@@ -68,7 +67,7 @@ const ProfileUser = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-emerald-50">
+    <div className="min-h-screen bg-linear-to-b from-sky-300 to-emerald-300">
       <div className="max-w-6xl mx-auto p-4">
         <div className="flex flex-col gap-3 mb-5">
           <div>
@@ -120,7 +119,7 @@ const ProfileUser = () => {
                     name="name"
                     value={form.name}
                     onChange={onChange}
-                    placeholder="Ví dụ: Nguyễn Văn A"
+                    placeholder="Nguyễn Văn A"
                     className="w-full py-3 px-3 rounded-xl bg-white border border-slate-200 outline-none"
                   />
                   <p className="text-xs text-slate-500 mt-1">Tối thiểu 3 ký tự.</p>
