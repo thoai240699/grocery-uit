@@ -13,6 +13,8 @@ import ProtectedLayout from './layout/ProtectedLayout'
 import ProfileUser from './pages/ProfileUser'
 import AddProduct from './pages/Products/AddProduct'
 import AddProductCategories from './pages/Products/AddProductCategories'
+import AllProducts from './pages/Products/AllProduct'
+import RoleLayout from './layout/RoleLayout'
 
 const App = () => {
   return (
@@ -25,12 +27,15 @@ const App = () => {
           <Route element={<ProtectedLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="profile" element={<ProfileUser />} />
-            <Route path="AddProduct" element={<AddProduct />} />
-            <Route path="AddProductCategories" element={<AddProductCategories />} />
+
+            <Route element={<RoleLayout role={"staff"} />}>
+              <Route path="AddProduct" element={<AddProduct />} />
+              <Route path="AddProductCategories" element={<AddProductCategories />} />
+              <Route path="AllProduct" element={<AllProducts />} />
+            </Route>
+
           </Route>
         </Route>
-
-
         <Route element={<AuthLayout />} >
           <Route path='/login' element={<LoginUser />} />
           <Route path='/register' element={<RegisterUser />} />
