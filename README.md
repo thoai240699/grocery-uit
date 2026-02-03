@@ -7,3 +7,13 @@ backend:
 
 frontend:
     npm run dev
+
+chat bot:
+    brew install ollama     # macOS
+    ollama serve            # run ollama service, or brew services start ollama
+    http://localhost:11434  # http://localhost:11434
+    ollama pull qwen3:4b    # pull model
+    ollama list             # check health
+    python -m app.services.build_index  # build index
+
+    

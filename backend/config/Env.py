@@ -10,3 +10,5 @@ class ENVConfig:
     CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY", "")
     CLOUDINARY_NAME = os.getenv("CLOUDINARY_NAME", "")
     CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET", "")
+
+    EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "")
