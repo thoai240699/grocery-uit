@@ -12,3 +12,4 @@ class ENVConfig:
     CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET", "")
 
     EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "")
+    OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")

@@ -1,7 +1,7 @@
-from sentence_transformers import SentenceTransformer
+# from sentence_transformers import SentenceTransformer
 from config.Env import ENVConfig
 
-model = SentenceTransformer(ENVConfig.EMBEDDING_MODEL)
+# model = SentenceTransformer(ENVConfig.EMBEDDING_MODEL)
 
 import requests
 
