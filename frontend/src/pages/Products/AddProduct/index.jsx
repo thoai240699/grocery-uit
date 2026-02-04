@@ -16,7 +16,6 @@ const AddProduct = () => {
         if (response.data && Array.isArray(response.data.items)) {
           const categoryNames = response.data.items.map((category) => category.name);
           setCategories(categoryNames);
-          console.log("Fetched categories:", categoryNames);
         } else {
           throw new Error("Không có dữ liệu danh mục");
         }

@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import { axiosClient } from '@/utils/axiosClient';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
@@ -15,7 +15,11 @@ const validationSchema = Yup.object({
 
 const onSubmitHandler = async (values, { resetForm }) => {
     try {
-        const response = await axios.post('/categories/add', values);
+        await axiosClient.post('/categories/add', values, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
         resetForm();
     } catch (error) {
         console.error('Lỗi khi thêm danh mục:', error);

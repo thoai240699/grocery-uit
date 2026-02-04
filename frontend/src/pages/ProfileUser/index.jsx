@@ -3,6 +3,7 @@ import { useAuthContext } from "@/context/AuthContext";
 import { axiosClient } from "@/utils/axiosClient";
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
+import { IoMdCheckmark, IoMdClose } from "react-icons/io";
 
 const ProfileUser = () => {
   const { user, fetchUserProfile } = useAuthContext();
@@ -46,7 +47,7 @@ const ProfileUser = () => {
       if (form.name.trim() && form.name.trim() !== initialForm.name) payload.name = form.name.trim();
       if (form.phone.trim() && form.phone.trim() !== initialForm.phone) payload.phone = form.phone.trim();
       if (form.address.trim() && form.address.trim() !== initialForm.address) payload.address = form.address.trim();
-      if (form.dob) payload.dob = form.dob; // yyyy-mm-dd
+      if (form.dob) payload.dob = form.dob;
 
       if (!Object.keys(payload).length) {
         toast.info("Không có thay đổi để lưu");
@@ -67,121 +68,150 @@ const ProfileUser = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-sky-300 to-emerald-300">
-      <div className="max-w-6xl mx-auto p-4">
-        <div className="flex flex-col gap-3 mb-5">
-          <div>
-            <h2 className="text-2xl font-semibold text-emerald-800">Thông tin người dùng</h2>
-          </div>
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-blue-50">
+      {/* Header Section */}
+      <section className="relative pt-20 pb-12 md:pt-32 md:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 pointer-events-none"></div>
+        <div className="relative max-w-7xl mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+            Hồ Sơ Của Tôi
+          </h1>
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+            Quản lý thông tin cá nhân và cập nhật tài khoản của bạn
+          </p>
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 gap-4">
-          {/* Left: Avatar card */}
-          <div>
-            <div className="bg-white border border-emerald-100 shadow-sm rounded-2xl p-5">
-              <div className="flex items-start justify-between gap-3 mb-4">
-                <div>
-                  <h3 className="font-semibold text-slate-900">Ảnh đại diện</h3>
-                  <p className="text-sm text-slate-600">Nhấn vào ảnh để tải lên.</p>
-                </div>
-              </div>
-              <div className="flex justify-center py-3">
+      {/* Main Content */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Avatar Section */}
+          <div className="md:col-span-1">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-20">
+              <h3 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
+                Ảnh Đại Diện
+              </h3>
+              <p className="text-sm text-gray-600 mb-6">Nhấn vào ảnh để tải lên hình mới</p>
+              <div className="flex justify-center py-6">
                 <AvatarComponent />
               </div>
+              <p className="text-xs text-gray-500 text-center">Dung lượng tối đa: 5MB</p>
             </div>
           </div>
 
-          {/* Right: Form card */}
-          <div>
-            <div className="bg-white border border-sky-100 shadow-sm rounded-2xl p-5">
-              <div className="flex items-start justify-between gap-3 mb-5">
+          {/* Form Section */}
+          <div className="md:col-span-2">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+              <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h3 className="font-semibold text-sky-900">Thông tin cá nhân</h3>
-                  <p className="text-sm text-sky-700">Thông tin này sẽ hiển thị trên tài khoản của bạn.</p>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Thông Tin Cá Nhân</h3>
+                  <p className="text-gray-600">Cập nhật thông tin hồ sơ của bạn</p>
                 </div>
-                {isDirty ? (
-                  <span className="text-xs px-2 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-100">
-                    Có thay đổi chưa lưu
-                  </span>
-                ) : (
-                  <span className="text-xs px-2 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
-                    Đã đồng bộ
-                  </span>
+                {isDirty && (
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 border border-amber-200">
+                    <div className="w-2 h-2 rounded-full bg-amber-500"></div>
+                    <span className="text-sm font-medium text-amber-700">Có thay đổi chưa lưu</span>
+                  </div>
                 )}
               </div>
 
-              <form onSubmit={onSubmit} className="grid grid-cols-1 gap-4">
+              <form onSubmit={onSubmit} className="space-y-6">
+                {/* Name Field */}
                 <div>
-                  <label className="block text-sm font-medium text-emerald-800 mb-1">
-                    Họ tên <span className="text-red-600">*</span>
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    Họ và Tên <span className="text-red-500">*</span>
                   </label>
                   <input
                     name="name"
                     value={form.name}
                     onChange={onChange}
                     placeholder="Nguyễn Văn A"
-                    className="w-full py-3 px-3 rounded-xl bg-white border border-slate-200 outline-none"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
-                  <p className="text-xs text-slate-500 mt-1">Tối thiểu 3 ký tự.</p>
+                  <p className="text-xs text-gray-500 mt-2">Tối thiểu 3 ký tự, dùng cho liên hệ và nhận hàng</p>
                 </div>
 
+                {/* Phone Field */}
                 <div>
-                  <label className="block text-sm font-medium text-sky-800 mb-1">Số điện thoại</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    Số Điện Thoại
+                  </label>
                   <input
                     name="phone"
                     value={form.phone}
                     onChange={onChange}
-                    placeholder="Nhập số điện thoại..."
-                    className="w-full py-3 px-3 rounded-xl bg-white border border-slate-200 outline-none"
+                    placeholder="09xxxxxxxxx"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
+                  <p className="text-xs text-gray-500 mt-2">Sẽ dùng cho liên hệ giao hàng</p>
                 </div>
 
+                {/* Address Field */}
                 <div>
-                  <label className="block text-sm font-medium text-sky-800 mb-1">Địa chỉ</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    Địa Chỉ
+                  </label>
                   <input
                     name="address"
                     value={form.address}
                     onChange={onChange}
-                    placeholder="Số nhà, đường, phường/xã, quận/huyện..."
-                    className="w-full py-3 px-3 rounded-xl bg-white border border-slate-200 outline-none"
+                    placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố..."
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
+                  <p className="text-xs text-gray-500 mt-2">Địa chỉ giao hàng mặc định</p>
                 </div>
 
+                {/* Date of Birth Field */}
                 <div>
-                  <label className="block text-sm font-medium text-emerald-800 mb-1">Ngày sinh</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    Ngày Sinh
+                  </label>
                   <input
                     type="date"
                     name="dob"
                     value={form.dob}
                     onChange={onChange}
-                    className="w-full py-3 px-3 rounded-xl bg-white border border-slate-200 outline-none"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
+                  <p className="text-xs text-gray-500 mt-2">Dùng để xác minh tuổi</p>
                 </div>
 
-                <div className="flex flex-col items-stretch justify-end gap-3 mt-2">
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-gray-200">
                   <button
                     type="button"
                     onClick={() => setForm(initialForm)}
-                    className="px-4 py-2 rounded-xl border border-sky-200 bg-white text-sky-800 cursor-pointer"
                     disabled={isSaving || !isDirty}
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
-                    Hoàn tác
+                    <IoMdClose className="text-lg" />
+                    Hoàn Tác
                   </button>
                   <button
                     type="submit"
                     disabled={isSaving || !isDirty}
-                    className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-sky-500 text-white cursor-pointer"
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
-                    {isSaving ? "Đang lưu..." : "Lưu thay đổi"}
+                    <IoMdCheckmark className="text-lg" />
+                    {isSaving ? "Đang Lưu..." : "Lưu Thay Đổi"}
                   </button>
                 </div>
               </form>
             </div>
+
+            {/* Info Box */}
+            <div className="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6">
+              <h4 className="font-semibold text-blue-900 mb-2">💡 Mẹo</h4>
+              <p className="text-sm text-blue-800">
+                Đảm bảo thông tin cá nhân của bạn được cập nhật chính xác để tránh sai sót khi giao hàng.
+                Bạn có thể thay đổi thông tin này bất kỳ lúc nào.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
 
-export default ProfileUser
+export default ProfileUser;

@@ -58,7 +58,6 @@ const RegisterUser = () => {
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
               Tạo Tài Khoản Mới
             </h1>
-            <p className="text-gray-600 text-sm">Tham gia và khám phá hàng ngàn sản phẩm</p>
           </div>
 
           <Formik
@@ -219,10 +218,5 @@ const RegisterUser = () => {
       `}</style>
     </div>
   );
-      )}
-      </Formik >
-    </>
-  );
-};
-
+}
 export default RegisterUser;

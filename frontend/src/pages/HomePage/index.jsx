@@ -288,9 +288,6 @@ const HomePage = () => {
                 <div className="col-span-full flex flex-col items-center justify-center py-20">
                   <div className="text-6xl mb-6">🌿</div>
                   <h3 className="text-3xl font-bold text-gray-800 mb-3">Không Tìm Thấy Sản Phẩm</h3>
-                  <p className="text-gray-600 text-center max-w-md mb-8">
-                    Hãy thử điều chỉnh bộ lọc hoặc tiêu chí tìm kiếm để khám phá thêm bộ sưu tập.
-                  </p>
                   <button
                     onClick={resetFilters}
                     className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all"
