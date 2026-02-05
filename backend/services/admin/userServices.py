@@ -45,7 +45,10 @@ def get_all_employees():
 
     res = query.execute()
 
-    return res.data
+    return {
+        "total": res.count,
+        "items": res.data
+    }
 
 def get_all_customers():
     query = (
@@ -59,7 +62,10 @@ def get_all_customers():
 
     res = query.execute()
 
-    return res.data
+    return {
+        "total": res.count,
+        "items": res.data
+    }
 
 def get_staff_by_id(user_id):
     query = (

@@ -17,6 +17,8 @@ import AllProducts from './pages/Products/AllProduct'
 import RoleLayout from './layout/RoleLayout'
 import ChatPage from './pages/ChatPage'
 import AdminAllProducts from './pages/Products/AdminAllProduct'
+import Employees from './pages/EmployeePage'
+import Customers from './pages/CustomerPage'
 
 const App = () => {
   return (
@@ -38,7 +40,9 @@ const App = () => {
             </Route>
 
             <Route element={<RoleLayout role={"admin"} />}>
-              <Route path="AllProduct" element={<AdminAllProducts />} />
+              <Route path="AdminAllProduct" element={<AdminAllProducts />} />
+              <Route path="Employees" element={<Employees />} />
+              <Route path="Customers" element={<Customers />} />
             </Route>
 
           </Route>

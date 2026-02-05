@@ -28,7 +28,27 @@ def list_users(
     except Exception as e:
         logger.exception(e)
         raise HTTPException(status_code=404, detail="Item not found")
-    
+
+@router.get("/employees")
+def list_employees(
+    userId: str = Depends(ValidateUser(authModel.RolesEnum.admin))
+):
+    try:
+        return userServices.get_all_employees()
+    except Exception as e:
+        logger.exception(e)
+        raise HTTPException(status_code=404, detail="Item not found")
+
+@router.get("/customers")
+def list_customers(
+    userId: str = Depends(ValidateUser(authModel.RolesEnum.admin))
+):
+    try:
+        return userServices.get_all_customers()
+    except Exception as e:
+        logger.exception(e)
+        raise HTTPException(status_code=404, detail="Item not found") 
+
 @router.get("/staff/{user_id}")
 def get_user(
     user_id: str,
