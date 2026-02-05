@@ -3,7 +3,7 @@ from fastapi import Depends, HTTPException, Query
 import logging
 
 from models.productModel import Product
-from services.productServices import get_products, get_product_by_id
+from services.productServices import get_products, get_product_by_id, get_product_by_slug
 from controllers.productController import addProductController
 from middlewares.VerifyUser import ValidateUser
 from models import authModel
@@ -44,6 +44,16 @@ def get_product(
         return get_product_by_id(
             product_id
         )
+    except Exception as e:
+        logger.exception(e)
+        raise HTTPException(status_code=404, detail="Item not found")
+
+@router.get("/slug/{product_slug}")
+def get_product_by_slug_view(
+    product_slug: str,
+):
+    try:
+        return get_product_by_slug(product_slug)
     except Exception as e:
         logger.exception(e)
         raise HTTPException(status_code=404, detail="Item not found")

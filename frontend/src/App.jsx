@@ -16,6 +16,7 @@ import AddProductCategories from './pages/Products/AddProductCategories'
 import AllProducts from './pages/Products/AllProduct'
 import RoleLayout from './layout/RoleLayout'
 import ChatPage from './pages/ChatPage'
+import ProductPage from './pages/ProductPage'
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route index element={<HomePage />} />
           <Route path="cart" element={<CartPage />} />
           <Route path="chat" element={<ChatPage />} />
+          <Route path='product/:slug' element={<ProductPage />} />
 
           <Route element={<ProtectedLayout />}>
             <Route path="dashboard" element={<Dashboard />} />

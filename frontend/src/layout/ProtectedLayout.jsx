@@ -36,16 +36,17 @@ const ProtectedLayout = () => {
   }
 
   return (
-    <div className="flex items-start bg-orange-50 min-h-screen">
+    <div className="flex items-start bg-gradient-to-b from-slate-50 via-blue-50/30 to-white min-h-screen">
       <Sidebar
         toggled={isToggle}
         collapsed={isCollapse}
         onBackdropClick={() => dispatch(setToggle())}
         breakPoint="md"
         rootStyles={{
-          backgroundColor: '#FFEDD5', // bg-orange-100
-          color: '#7C2D12', // text-orange-900-ish
-          borderRight: '1px solid #FED7AA', // border-orange-200
+          backgroundColor: '#ffffff',
+          color: '#1f2937',
+          borderRight: '1px solid #e5e7eb',
+          boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1)',
           transition: 'width 0.3s ease-in-out, left 0.3s ease-in-out, right 0.3s ease-in-out',
           '&.ps-collapsed': {
             '.ps-menu-label, .ps-submenu-content': {
@@ -58,46 +59,48 @@ const ProtectedLayout = () => {
           className="h-[80vh] border-none"
           menuItemStyles={{
             button: {
-              padding: '10px 16px',
-              color: '#7C2D12',
+              padding: '12px 20px',
+              color: '#4b5563',
+              borderRadius: '12px',
+              margin: '4px 8px',
+              fontWeight: '500',
               '&:hover': {
-                backgroundColor: '#FED7AA',
-                color: '#7C2D12',
+                background: 'linear-gradient(to right, #dbeafe, #e0e7ff)',
+                color: '#2563eb',
               },
               '&.active': {
-                backgroundColor: '#FB923C',
-                color: '#FFFFFF',
+                background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
+                color: '#ffffff',
+                boxShadow: '0 4px 6px -1px rgb(139 92 246 / 0.3)',
               },
             },
             icon: {
-              color: '#EA580C',
               fontSize: '1.5rem',
             },
           }}
+        >          <MenuItem
+          icon={<MdDashboard className="text-2xl text-blue-600" />}
+          component={<Link to="/dashboard" />}
         >
-          <MenuItem
-            icon={<MdDashboard className="text-2xl text-orange-600" />}
-            component={<Link to="/dashboard" />}
-          >
             Quản lý
           </MenuItem>
 
           {user.role === ROLE_TYPE.CUSTOMER ? (
             <>
               <MenuItem
-                icon={<IoMdHeartEmpty className="text-2xl text-orange-500" />}
+                icon={<IoMdHeartEmpty className="text-2xl text-pink-500" />}
                 component={<Link to="/wishlist" />}
               >
                 Yêu thích
               </MenuItem>
               <MenuItem
-                icon={<IoBagCheckOutline className="text-2xl text-orange-500" />}
+                icon={<IoBagCheckOutline className="text-2xl text-purple-500" />}
                 component={<Link to="/checkout" />}
               >
                 Thanh toán
               </MenuItem>
               <MenuItem
-                icon={<CiShoppingCart className="text-2xl text-orange-500" />}
+                icon={<CiShoppingCart className="text-2xl text-blue-500" />}
                 component={<Link to="/orders" />}
               >
                 Đơn hàng
@@ -107,7 +110,7 @@ const ProtectedLayout = () => {
             <>
               <SubMenu
                 label="Sản phẩm"
-                icon={<MdProductionQuantityLimits className="text-2xl text-orange-600" />}
+                icon={<MdProductionQuantityLimits className="text-2xl text-purple-600" />}
               >
                 <MenuItem component={<Link to="/AddProduct" />}>
                   Thêm sản phẩm
@@ -123,7 +126,7 @@ const ProtectedLayout = () => {
           )}
 
           <MenuItem
-            icon={<CiUser className="text-2xl text-orange-600" />}
+            icon={<CiUser className="text-2xl text-green-600" />}
             component={<Link to="/profile" />}
           >
             Thông tin cá nhân
@@ -131,8 +134,8 @@ const ProtectedLayout = () => {
         </Menu>
       </Sidebar>
 
-      <main className="p-4 flex-grow">
-        <div className="bg-white mt-5 rounded-lg shadow-sm p-4 border border-orange-100">
+      <main className="p-4 sm:p-6 lg:p-8 flex-grow">
+        <div className="bg-white/80 backdrop-blur-sm mt-5 rounded-2xl shadow-lg p-6 border border-gray-200">
           <Outlet />
         </div>
       </main>

@@ -225,7 +225,7 @@ const HomePage = () => {
             <div className="lg:col-span-4">
               {products.length > 0 ? (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-12">
                     {products.map((product) => (
                       <ProductCard key={product?.id} data={product} />
                     ))}
@@ -309,21 +309,21 @@ export default HomePage
 const ProductCard = ({ data }) => {
   return (
     <Link
-      to={'/product/' + data?.id}
+      to={'/product/' + (data?.slug || data?.id)}
       className="group block h-full"
     >
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:border-purple-200 transition-all duration-300 h-full flex flex-col">
         {/* Image Container */}
-        <div className="relative h-56 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+        <div className="relative bg-white overflow-hidden aspect-square">
           <img
             alt={data?.name || 'Sản phẩm'}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-500"
             src={data?.image_url}
             loading="lazy"
           />
           {data?.category?.name && (
-            <div className="absolute top-4 left-4">
-              <span className="px-4 py-2 bg-white/95 backdrop-blur-sm text-gray-700 text-xs font-bold rounded-full shadow-lg">
+            <div className="absolute top-2 left-2">
+              <span className="px-2 py-1 bg-white/95 backdrop-blur-sm text-gray-700 text-[10px] font-bold rounded-full shadow-lg">
                 {data.category.name}
               </span>
             </div>
@@ -331,21 +331,21 @@ const ProductCard = ({ data }) => {
         </div>
 
         {/* Content */}
-        <div className="p-6 flex flex-col flex-1">
-          <h3 className="text-lg font-bold text-gray-900 line-clamp-2 mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:bg-clip-text transition-all">
+        <div className="p-4 flex flex-col flex-1">
+          <h3 className="text-sm font-bold text-gray-900 line-clamp-2 mb-1 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:bg-clip-text transition-all">
             {data?.name}
           </h3>
-          <p className="text-sm text-gray-500 mb-4 line-clamp-1">
+          <p className="text-xs text-gray-500 mb-3 line-clamp-1">
             {data?.category?.name || 'Chưa phân loại'}
           </p>
 
           {/* Price Section */}
           <div className="mt-auto">
             <div className="flex items-baseline justify-between">
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data?.price || 0)}
               </span>
-              <span className="text-xs text-gray-400 group-hover:text-purple-600 transition-colors">
+              <span className="text-[10px] text-gray-400 group-hover:text-purple-600 transition-colors">
                 Xem Chi Tiết →
               </span>
             </div>

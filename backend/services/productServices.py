@@ -16,7 +16,7 @@ def get_products(**filters):
         client
         .table("products")
         .select(
-            "id,name,price,stock,image_url,"
+            "id,name,slug,price,stock,image_url,"
             "category:categories(id,name,slug)",
             count="exact"
         )
@@ -56,10 +56,26 @@ def get_product_by_id(product_id):
         client
         .table("products")
         .select(
-            "id,name, price,stock,image_url,"
-            "category:categories(name,slug)"
+            "id,name,slug,description,price,stock,image_url,"
+            "category:categories(id,name,slug)"
         )
         .eq("id", product_id)
+        .single()
+    )
+
+    res = query.execute()
+
+    return res.data
+
+def get_product_by_slug(product_slug):
+    query = (
+        client
+        .table("products")
+        .select(
+            "id,name,slug,description,price,stock,image_url,"
+            "category:categories(id,name,slug)"
+        )
+        .eq("slug", product_slug)
         .single()
     )
 
