@@ -9,6 +9,7 @@ class RolesEnum(str, Enum):
     admin = "admin"
     staff = "staff"
     customer = "customer"
+    manager = "manager"
 
 class User(BaseModel):
     name: Optional[str] = None
