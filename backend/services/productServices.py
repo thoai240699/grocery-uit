@@ -17,7 +17,8 @@ def get_products(**filters):
         .table("products")
         .select(
             "id,name,price,stock,image_url,"
-            "category:categories(id,name,slug)"
+            "category:categories(id,name,slug)",
+            count="exact"
         )
         .range(start, end)
     )
@@ -38,14 +39,16 @@ def get_products(**filters):
         query = query.order("price", desc=False)
     elif sort == "price_desc":
         query = query.order("price", desc=True)
+    else:
+        query = query.order("id", desc=True)
 
     res = query.execute()
 
     return {
         "page": page,
         "limit": limit,
-        "total": res.count,
-        "items": res.data
+        "total": res.count if res.count is not None else 0,
+        "items": res.data if res.data else []
     }
 
 def get_product_by_id(product_id):

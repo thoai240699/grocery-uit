@@ -34,7 +34,7 @@ def list_products(
         )
     except Exception as e:
         logger.exception(e)
-        raise HTTPException(status_code=404, detail="Item not found")
+        raise HTTPException(status_code=500, detail=f"Lỗi server: {str(e)}")
 
 @router.get("/id/{product_id}")
 def get_product(
