@@ -8,7 +8,7 @@ from controllers.productController import addProductController
 from middlewares.VerifyUser import ValidateUser
 from models import authModel
 
-router = APIRouter(prefix="/api/amdin/products",tags=['Product'])
+router = APIRouter(prefix="/api/v1/admin/products",tags=['Product'])
 
 logger = logging.getLogger(__name__)
 

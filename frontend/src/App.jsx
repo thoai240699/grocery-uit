@@ -16,6 +16,7 @@ import AddProductCategories from './pages/Products/AddProductCategories'
 import AllProducts from './pages/Products/AllProduct'
 import RoleLayout from './layout/RoleLayout'
 import ChatPage from './pages/ChatPage'
+import AdminAllProducts from './pages/Products/AdminAllProduct'
 
 const App = () => {
   return (
@@ -36,7 +37,12 @@ const App = () => {
               <Route path="AllProduct" element={<AllProducts />} />
             </Route>
 
+            <Route element={<RoleLayout role={"admin"} />}>
+              <Route path="AllProduct" element={<AdminAllProducts />} />
+            </Route>
+
           </Route>
+
         </Route>
         <Route element={<AuthLayout />} >
           <Route path='/login' element={<LoginUser />} />

@@ -6,7 +6,7 @@ import services.admin.userServices as userServices
 from middlewares.VerifyUser import ValidateUser
 from models import authModel
 
-router = APIRouter(prefix="/api/admin/users", tags=['User'])
+router = APIRouter(prefix="/api/v1/admin/users", tags=['User'])
 
 logger = logging.getLogger(__name__)
 

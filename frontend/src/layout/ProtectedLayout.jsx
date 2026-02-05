@@ -103,7 +103,10 @@ const ProtectedLayout = () => {
                 Đơn hàng
               </MenuItem>
             </>
-          ) : (
+          ) : (<></>)}
+
+          {(user.role === ROLE_TYPE.STAFF) ?
+          (
             <>
               <SubMenu
                 label="Sản phẩm"
@@ -120,7 +123,29 @@ const ProtectedLayout = () => {
                 </MenuItem>
               </SubMenu>
             </>
-          )}
+          ) : (<></>)}
+
+          {(user.role === ROLE_TYPE.ADMIN) ?
+          (
+            <>
+              <SubMenu
+                label="Sản phẩm"
+                icon={<MdProductionQuantityLimits className="text-2xl text-orange-600" />}
+              >
+                <MenuItem component={<Link to="/AllProduct" />}>
+                  Tất cả sản phẩm
+                </MenuItem>
+              </SubMenu>
+
+              <MenuItem >
+                  Người dùng
+              </MenuItem>
+
+              <MenuItem >
+                  Đơn hàng
+              </MenuItem>
+            </>
+          ) : (<></>)}
 
           <MenuItem
             icon={<CiUser className="text-2xl text-orange-600" />}

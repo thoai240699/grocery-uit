@@ -111,12 +111,6 @@ const AdminLayout = () => {
             <MenuItem component={<Link to="/AllProduct" />}>
               Tất cả sản phẩm
             </MenuItem>
-            <MenuItem component={<Link to="/AddProduct" />}>
-              Thêm sản phẩm
-            </MenuItem>
-            <MenuItem component={<Link to="/AddProductCategories" />}>
-              Thêm danh mục
-            </MenuItem>
           </SubMenu>
 
           {isAdmin && (
