@@ -3,6 +3,9 @@ from routes.authRoute import router as AuthRouter
 from routes.productRoute import router as ProductRouter
 from routes.categoryRoute import router as CategoryRouter
 from routes.chatRoute import router as ChatRouter
+from routes.admin.productRoute import router as AdminProductRouter
+from routes.admin.userRoute import router as AdminUserRouter
+
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -17,6 +20,8 @@ app.add_middleware(
     allow_credentials=[True]
     )
 
+app.include_router(AdminProductRouter)
+app.include_router(AdminUserRouter)
 
 app.include_router(AuthRouter)
 app.include_router(ProductRouter)

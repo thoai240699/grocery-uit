@@ -8,7 +8,7 @@ import { setToggle, SidebarSlicePath } from '@/redux/slice/sidebar.slice'
 import { CiShoppingCart, CiUser } from 'react-icons/ci'
 import { IoMdHeartEmpty } from 'react-icons/io'
 import { IoBagCheckOutline } from 'react-icons/io5'
-import { MdDashboard, MdProductionQuantityLimits } from 'react-icons/md'
+import { MdBadge, MdDashboard, MdOutlinePersonOutline, MdProductionQuantityLimits } from 'react-icons/md'
 import { ROLE_TYPE } from '@/constant/auth.constant'
 
 const ProtectedLayout = () => {
@@ -75,12 +75,12 @@ const ProtectedLayout = () => {
             },
           }}
         >
-          <MenuItem
+          {/* <MenuItem
             icon={<MdDashboard className="text-2xl text-orange-600" />}
             component={<Link to="/dashboard" />}
           >
             Quản lý
-          </MenuItem>
+          </MenuItem> */}
 
           {user.role === ROLE_TYPE.CUSTOMER ? (
             <>
@@ -103,7 +103,10 @@ const ProtectedLayout = () => {
                 Đơn hàng
               </MenuItem>
             </>
-          ) : (
+          ) : (<></>)}
+
+          {(user.role === ROLE_TYPE.STAFF) ?
+          (
             <>
               <SubMenu
                 label="Sản phẩm"
@@ -120,7 +123,48 @@ const ProtectedLayout = () => {
                 </MenuItem>
               </SubMenu>
             </>
-          )}
+          ) : (<></>)}
+
+          {(user.role === ROLE_TYPE.ADMIN) ?
+          (
+            <>
+              <SubMenu
+                label="Sản phẩm"
+                icon={<MdProductionQuantityLimits className="text-2xl text-orange-600" />}
+              >
+                <MenuItem 
+                  // component={<Link to="/AdminAllProducts" />}
+                >
+                  Tất cả sản phẩm
+                </MenuItem>
+              </SubMenu>
+
+              <MenuItem 
+                icon={<MdBadge className="text-2xl text-orange-600" />}
+                component={<Link to="/Customers" />}
+              >
+                  Khách hàng
+              </MenuItem>
+
+              <MenuItem 
+                icon={<MdDashboard className="text-2xl text-orange-600" />}>
+                  Đơn hàng
+              </MenuItem>
+
+              <MenuItem 
+                icon={<MdOutlinePersonOutline className="text-2xl text-orange-600" />}
+                component={<Link to="/Employees" />}
+              >
+                  Nhân viên
+              </MenuItem>
+
+              <MenuItem 
+                icon={<MdOutlinePersonOutline className="text-2xl text-orange-600" />}
+              >
+                  Logs
+              </MenuItem>
+            </>
+          ) : (<></>)}
 
           <MenuItem
             icon={<CiUser className="text-2xl text-orange-600" />}
