@@ -144,6 +144,10 @@ const ProtectedLayout = () => {
               <MenuItem >
                   Đơn hàng
               </MenuItem>
+
+              <MenuItem >
+                  Nhân viên
+              </MenuItem>
             </>
           ) : (<></>)}
 

@@ -33,6 +33,34 @@ def get_users(**filters):
         "items": res.data
     }
 
+def get_all_employees():
+    query = (
+        client
+        .table("users")
+        .select(
+            "id,name,email,role, phone, dob, address, created_at"
+        )
+        .in_("role", ["staff", "manager"])
+    )
+
+    res = query.execute()
+
+    return res.data
+
+def get_all_customers():
+    query = (
+        client
+        .table("users")
+        .select(
+            "id,name,email,role, phone, dob, address, created_at"
+        )
+        .eq("role", "customer")
+    )
+
+    res = query.execute()
+
+    return res.data
+
 def get_staff_by_id(user_id):
     query = (
         client
