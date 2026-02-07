@@ -1,5 +1,17 @@
 from config.db import client
 
+def add_profile_to_product(product):
+    if not product or not product.get('id'):
+        return product
+    
+    try:
+        profile = client.table("product_profiles").select("*").eq("product_id", product['id']).execute()
+        product['profile'] = profile.data[0] if profile.data else None
+    except Exception:
+        product['profile'] = None
+    
+    return product
+
 def get_products(**filters):
     page = filters.get("page", 1)
     limit = filters.get("limit", 10)
@@ -56,7 +68,7 @@ def get_product_by_id(product_id):
         client
         .table("products")
         .select(
-            "id,name,slug,description,price,stock,image_url,"
+            "id,name,slug,price,stock,image_url,"
             "category:categories(id,name,slug)"
         )
         .eq("id", product_id)
@@ -65,14 +77,16 @@ def get_product_by_id(product_id):
 
     res = query.execute()
 
-    return res.data
+    product = add_profile_to_product(res.data)
+
+    return product
 
 def get_product_by_slug(product_slug):
     query = (
         client
         .table("products")
         .select(
-            "id,name,slug,description,price,stock,image_url,"
+            "id,name,slug,price,stock,image_url,"
             "category:categories(id,name,slug)"
         )
         .eq("slug", product_slug)
@@ -80,8 +94,10 @@ def get_product_by_slug(product_slug):
     )
 
     res = query.execute()
+    
+    product = add_profile_to_product(res.data)
 
-    return res.data
+    return product
 
 def addProductService(product_data):
     result = client.table("products").insert(product_data).execute()
@@ -89,4 +105,4 @@ def addProductService(product_data):
         raise ValueError("Không thể thêm sản phẩm")
     return {
         "msg": "Đã thêm sản phẩm"
-    } 
+    }

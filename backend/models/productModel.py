@@ -31,3 +31,18 @@ class Product(BaseModel):
         if "category_id" in data and isinstance(data["category_id"], UUID):
             data["category_id"] = str(data["category_id"])
         return data
+
+
+class ProductProfile(BaseModel):
+    product_id: UUID
+    description: Optional[str] = None
+    ingredients: Optional[str] = None
+    calories: Optional[int] = None
+    suitable_for: Optional[str] = None  # kids, diet, diabetic...
+    use_cases: Optional[str] = None     # breakfast, late night, gift...
+
+    def dict(self, *args, **kwargs):
+        data = super().dict(*args, **kwargs)
+        if "product_id" in data and isinstance(data["product_id"], UUID):
+            data["product_id"] = str(data["product_id"])
+        return data
