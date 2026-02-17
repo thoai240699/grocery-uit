@@ -4,10 +4,10 @@ from datetime import datetime, timezone, timedelta
 def toggleProductService(product_id, user_id):
     existing = client.table("wishlist").select("*").eq("user_id", user_id).eq("product_id", product_id).execute()
 
-    if(existing.count != None):
+    if(existing.data and len(existing.data) > 0):
         client.table("wishlist").delete().eq("product_id", product_id).eq("user_id", user_id).execute()
         return {
-            "msg": "Đã loại sản phẩm"
+            "msg": "Đã loại sản phẩm khỏi danh sách yêu thích"
         }
 
     wishlist_data = {
