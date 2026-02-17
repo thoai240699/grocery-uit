@@ -20,5 +20,16 @@ def toggleProductService(product_id, user_id):
     client.table("wishlist").insert(wishlist_data).execute()
     
     return {
-        "msg": "Product add to wishlist"
+        "msg": "Đã thêm sản phẩm vào danh sách yêu thích"
+    }
+
+def getProductService(product_id, user_id):
+    existing = client.table("wishlist").select("*").eq("user_id", user_id).eq("product_id", product_id).execute()
+
+    if(existing.data and len(existing.data) > 0):
+        return {
+            "exist": True
+        }
+    return {
+        "exist": False
     }

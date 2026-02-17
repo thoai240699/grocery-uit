@@ -11,3 +11,7 @@ def toggleProductView(
     user_id: str = Depends(ValidateUser(authModel.RolesEnum.customer))
     ):
     return wishListController.toggleProductController(data.product_id, user_id)
+
+@router.get("/get/{product_id}")
+def toggleProductView(product_id: str, user_id: str = Depends(ValidateUser(authModel.RolesEnum.customer))):
+    return wishListController.getProductController(product_id, user_id)
