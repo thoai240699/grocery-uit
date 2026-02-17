@@ -33,3 +33,20 @@ def getProductService(product_id, user_id):
     return {
         "exist": False
     }
+
+def getProductsService(user_id):
+    wishlist = client.table("wishlist").select("*").eq("user_id", user_id).execute()
+
+    products = []
+
+    for wishlist_item in wishlist.data or []:
+        product_result = client.table("products").select("*").eq("id", wishlist_item["product_id"]).execute()
+
+        if not product_result.data:
+            continue
+
+        product = product_result.data[0]
+
+        products.append(product)
+
+    return products

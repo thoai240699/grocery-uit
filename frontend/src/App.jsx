@@ -20,6 +20,7 @@ import ProductPage from './pages/ProductPage'
 import AdminAllProducts from './pages/Products/AdminAllProduct'
 import Employees from './pages/EmployeePage'
 import Customers from './pages/CustomerPage'
+import WishList from './pages/WishListPage'
 
 const App = () => {
   return (
@@ -34,6 +35,10 @@ const App = () => {
           <Route element={<ProtectedLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="profile" element={<ProfileUser />} />
+
+            <Route element={<RoleLayout role={"customer"} />} >
+              <Route path="wishlist" element={<WishList />} />
+            </Route>
 
             <Route element={<RoleLayout role={"staff"} />}>
               <Route path="AddProduct" element={<AddProduct />} />
