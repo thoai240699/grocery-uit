@@ -14,6 +14,7 @@ const ProductPage = () => {
   const [loading, setLoading] = useState(true)
   const [product, setProduct] = useState({})
 
+
   const fetchProductBySlug = useCallback(async () => {
     try {
       setLoading(true)
@@ -213,7 +214,7 @@ const ToggleWishListButton = memo(function ToggleWishListButton({ product_id }) 
   const checkExist = useCallback(async () => {
     try {
       if (!token) return
-      if (user.role != ROLE_TYPE.BUYER) return
+      if (user.role != ROLE_TYPE.CUSTOMER) return
       const response = await axiosClient.get("/wishlist/get/" + product_id, {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem("token")
@@ -261,8 +262,6 @@ const ToggleWishListButton = memo(function ToggleWishListButton({ product_id }) 
 
   const toggleProductWishList = async () => {
     try {
-      if (user.role != ROLE_TYPE.BUYER) return
-
       setLoading(true)
       const response = await axiosClient.post("/wishlist/toggle", {
         product_id

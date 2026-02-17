@@ -5,7 +5,7 @@ from routes.categoryRoute import router as CategoryRouter
 from routes.chatRoute import router as ChatRouter
 from routes.admin.productRoute import router as AdminProductRouter
 from routes.admin.userRoute import router as AdminUserRouter
-
+from routes.wishListRoute import router as wishListRouter
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -27,6 +27,7 @@ app.include_router(AuthRouter)
 app.include_router(ProductRouter)
 app.include_router(CategoryRouter)
 app.include_router(ChatRouter)
+app.include_router(wishListRouter)
 
 @app.get('/',tags=['health'])
 def healthRoute():
