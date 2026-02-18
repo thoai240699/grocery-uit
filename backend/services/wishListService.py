@@ -50,3 +50,16 @@ def getProductsService(user_id):
         products.append(product)
 
     return products
+
+def deleteProductService(product_id, user_id):
+    response = client.table("wishlist").delete().eq("user_id", user_id).eq("product_id", product_id).execute()
+    
+    if not response.data:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Sản phẩm không có trong danh sách yêu thích."
+        )
+
+    return {
+        "msg": "Đã bỏ sản phẩm khỏi danh sách yêu thích"
+    }

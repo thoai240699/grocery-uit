@@ -19,3 +19,7 @@ def toggleProductView(product_id: str, user_id: str = Depends(ValidateUser(authM
 @router.get("/get")
 def getProductsView(user_id: str = Depends(ValidateUser(authModel.RolesEnum.customer))):
     return wishListController.getProductsController(user_id)
+
+@router.delete("/delete/{product_id}")
+def deleteProductView(product_id: str, user_id: str = Depends(ValidateUser(authModel.RolesEnum.customer))):
+    return wishListController.deleteProductController(product_id, user_id)
