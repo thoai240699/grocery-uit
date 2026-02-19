@@ -218,7 +218,7 @@ const Customers = () => {
                       {customer.name || 'Chưa cập nhật'}
                     </h3>
                     <span className={getStatusBadge(customer.status || 'active')}>
-                      {customer.status === 'active' ? 'Hoạt động' : 'Tạm khóa'}
+                      {customer.status === 'active' ? 'Hoạt động' : 'Hoạt động'}
                     </span>
                   </div>
                 </div>
