@@ -3,6 +3,10 @@ import { toast } from 'react-toastify'
 import { axiosClient } from '@/utils/axiosClient'
 import LoaderComponent from '@/components/ui/LoaderComponent'
 import { IoMdSearch, IoMdAdd, IoMdPerson, IoMdMail, IoMdCalendar, IoMdEye, IoMdCreate, IoMdTrash } from 'react-icons/io'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 const Employees= () => {
   const [employees, setEmployees] = useState([])
@@ -11,6 +15,7 @@ const Employees= () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [totalEmployees, setTotalEmployees] = useState(0)
+  const [selectedEmployees, setSelectedEmployees] = useState([])
   const itemsPerPage = 10
 
   // Fetch employees data
@@ -108,11 +113,29 @@ const Employees= () => {
     })
   }
 
-  // Get status badge style
+  // Get status badge style  
   const getStatusBadge = (status) => {
     return status === 'active' 
       ? 'bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold'
       : 'bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-semibold'
+  }
+
+  // Handle select all
+  const handleSelectAll = (checked) => {
+    if (checked) {
+      setSelectedEmployees(employees.map(emp => emp.id))
+    } else {
+      setSelectedEmployees([])
+    }
+  }
+
+  // Handle individual selection
+  const handleSelectEmployee = (employeeId, checked) => {
+    if (checked) {
+      setSelectedEmployees(prev => [...prev, employeeId])
+    } else {
+      setSelectedEmployees(prev => prev.filter(id => id !== employeeId))
+    }
   }
 
   // useEffect hooks
@@ -179,7 +202,7 @@ const Employees= () => {
         </div>
 
         {/* Employee Table */}
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div className="bg-white rounded-lg border">
           {employees.length === 0 ? (
             <div className="text-center py-12">
               <div className="text-6xl mb-4">👥</div>
@@ -192,210 +215,160 @@ const Employees= () => {
             </div>
           ) : (
             <>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Nhân viên
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Liên hệ
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Ngày tham gia
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Trạng thái
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Thao tác
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {employees.map((employee) => (
-                      <tr key={employee.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 h-12 w-12">
-                              {employee.avatar_image_uri ? (
-                                <img 
-                                  className="h-12 w-12 rounded-full object-cover" 
-                                  src={employee.avatar_image_uri} 
-                                  alt={employee.name}
-                                />
-                              ) : (
-                                <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
-                                  <span className="text-blue-600 font-semibold text-lg">
-                                    {employee.name?.charAt(0)?.toUpperCase() || '?'}
-                                  </span>
-                                </div>
-                              )}
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-muted/50">
+                    <TableHead className="w-12">
+                      <Checkbox 
+                        checked={selectedEmployees.length === employees.length}
+                        onCheckedChange={handleSelectAll}
+                      />
+                    </TableHead>
+                    <TableHead className="font-medium">Nhân viên</TableHead>
+                    <TableHead className="font-medium">Vai trò</TableHead>
+                    <TableHead className="font-medium">Trạng thái</TableHead>
+                    <TableHead className="font-medium">Email</TableHead>
+                    <TableHead className="font-medium">Ngày tham gia</TableHead>
+                    <TableHead className="font-medium text-right">Thao tác</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {employees.map((employee) => (
+                    <TableRow key={employee.id} className="hover:bg-muted/50">
+                      <TableCell>
+                        <Checkbox 
+                          checked={selectedEmployees.includes(employee.id)}
+                          onCheckedChange={(checked) => handleSelectEmployee(employee.id, checked)}
+                        />
+                      </TableCell>
+                      
+                      <TableCell className="font-medium">
+                        <div className="flex items-center gap-3">
+                          {employee.avatar_image_uri ? (
+                            <img 
+                              className="h-10 w-10 rounded-full object-cover" 
+                              src={employee.avatar_image_uri} 
+                              alt={employee.name}
+                            />
+                          ) : (
+                            <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
+                              <span className="text-muted-foreground font-semibold text-sm">
+                                {employee.name?.charAt(0)?.toUpperCase() || '?'}
+                              </span>
                             </div>
-                            <div className="ml-4">
-                              <div className="text-sm font-medium text-gray-900">
-                                {employee.name || 'Chưa cập nhật'}
-                              </div>
-                              <div className="text-sm text-gray-500 capitalize">
-                                {employee.role}
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="space-y-1">
-                            <div className="text-sm text-gray-900 flex items-center gap-2">
-                              <IoMdMail className="text-gray-400" />
-                              {employee.email}
-                            </div>
-                            {employee.phone && (
-                              <div className="text-sm text-gray-500">
-                                📞 {employee.phone}
-                              </div>
-                            )}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900 flex items-center gap-2">
-                            <IoMdCalendar className="text-gray-400" />
-                            {formatDate(employee.created_at)}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={getStatusBadge(employee.status || 'active')}>
-                            {employee.status === 'active' ? 'Đang hoạt động' : 'Tạm khóa'}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                          <button 
-                            className="text-blue-600 hover:text-blue-900 p-1 hover:bg-blue-50 rounded"
+                          )}
+                          <span className="font-medium">{employee.name || 'Chưa cập nhật'}</span>
+                        </div>
+                      </TableCell>
+                      
+                      <TableCell>
+                        <Badge variant="secondary" className="capitalize">
+                          {employee.role === 'staff' ? 'Nhân viên' : employee.role}
+                        </Badge>
+                      </TableCell>
+                      
+                      <TableCell>
+                        <Badge variant={employee.status === 'active' ? 'default' : 'destructive'}>
+                          {employee.status === 'active' ? '● Hoạt động' : '● Tạm khóa'}
+                        </Badge>
+                      </TableCell>
+                      
+                      <TableCell className="text-muted-foreground">
+                        {employee.email}
+                      </TableCell>
+                      
+                      <TableCell className="text-muted-foreground">
+                        {formatDate(employee.created_at)}
+                      </TableCell>
+                      
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-1">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="h-8 w-8 p-0"
                             title="Xem chi tiết"
                           >
-                            <IoMdEye className="text-lg" />
-                          </button>
-                          <button 
-                            className="text-green-600 hover:text-green-900 p-1 hover:bg-green-50 rounded"
+                            <IoMdEye className="h-4 w-4" />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="h-8 w-8 p-0"
                             title="Chỉnh sửa"
                           >
-                            <IoMdCreate className="text-lg" />
-                          </button>
-                          <button 
+                            <IoMdCreate className="h-4 w-4" />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="h-8 w-8 p-0"
                             onClick={() => handleToggleStatus(employee.id, employee.status || 'active')}
-                            className={`p-1 rounded ${
-                              employee.status === 'active' 
-                                ? 'text-orange-600 hover:text-orange-900 hover:bg-orange-50' 
-                                : 'text-green-600 hover:text-green-900 hover:bg-green-50'
-                            }`}
                             title={employee.status === 'active' ? 'Tạm khóa' : 'Kích hoạt'}
                           >
                             {employee.status === 'active' ? '🔒' : '🔓'}
-                          </button>
-                          <button 
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="h-8 w-8 p-0 text-destructive hover:text-destructive"
                             onClick={() => handleDeleteEmployee(employee.id, employee.name)}
-                            className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
                             title="Xóa nhân viên"
                           >
-                            <IoMdTrash className="text-lg" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                            <IoMdTrash className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
 
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1 flex justify-between sm:hidden">
-                      <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                        className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
-                      >
-                        Trước
-                      </button>
-                      <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                        className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
-                      >
-                        Sau
-                      </button>
-                    </div>
-                    <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                      <div>
-                        <p className="text-sm text-gray-700">
-                          Hiển thị{' '}
-                          <span className="font-medium">
-                            {(currentPage - 1) * itemsPerPage + 1}
-                          </span>{' '}
-                          đến{' '}
-                          <span className="font-medium">
-                            {Math.min(currentPage * itemsPerPage, totalEmployees)}
-                          </span>{' '}
-                          trong tổng số{' '}
-                          <span className="font-medium">{totalEmployees}</span> nhân viên
-                        </p>
-                      </div>
-                      <div>
-                        <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                          <button
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                            className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                          >
-                            Trước
-                          </button>
-                          
-                          {[...Array(totalPages)].map((_, i) => {
-                            const page = i + 1
-                            if (
-                              page === 1 ||
-                              page === totalPages ||
-                              (page >= currentPage - 1 && page <= currentPage + 1)
-                            ) {
-                              return (
-                                <button
-                                  key={page}
-                                  onClick={() => handlePageChange(page)}
-                                  className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                                    currentPage === page
-                                      ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
-                                      : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
-                                  }`}
-                                >
-                                  {page}
-                                </button>
-                              )
-                            } else if (page === currentPage - 2 || page === currentPage + 2) {
-                              return (
-                                <span
-                                  key={page}
-                                  className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700"
-                                >
-                                  ...
-                                </span>
-                              )
-                            }
-                            return null
-                          })}
-                          
-                          <button
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                            className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                          >
-                            Sau
-                          </button>
-                        </nav>
-                      </div>
-                    </div>
-                  </div>
+              {/* Table Footer */}
+              <div className="flex items-center justify-between px-4 py-4 border-t">
+                <div className="flex items-center text-sm text-muted-foreground">
+                  {selectedEmployees.length > 0 && (
+                    <span className="mr-4">
+                      {selectedEmployees.length} of {employees.length} row(s) selected.
+                    </span>
+                  )}
+                  <span>
+                    Hiển thị{' '}
+                    <span className="font-medium text-foreground">
+                      {(currentPage - 1) * itemsPerPage + 1}
+                    </span>{' '}
+                    đến{' '}
+                    <span className="font-medium text-foreground">
+                      {Math.min(currentPage * itemsPerPage, totalEmployees)}
+                    </span>{' '}
+                    trong tổng số{' '}
+                    <span className="font-medium text-foreground">{totalEmployees}</span> nhân viên
+                  </span>
                 </div>
-              )}
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    ← Trước
+                  </Button>
+                  
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    Trang {currentPage} / {totalPages}
+                  </div>
+                  
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                  >
+                    Tiếp →
+                  </Button>
+                </div>
+              </div>
             </>
           )}
         </div>
