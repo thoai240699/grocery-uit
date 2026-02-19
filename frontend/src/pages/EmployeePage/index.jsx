@@ -42,6 +42,7 @@ const Employees= () => {
       const data = response.data
       setEmployees(data.items || [])
       setTotalEmployees(data.total || 0)
+      console.log('Data:', data)
       setTotalPages(Math.ceil((data.total || 0) / itemsPerPage))
       
     } catch (error) {

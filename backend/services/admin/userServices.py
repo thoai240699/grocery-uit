@@ -1,5 +1,9 @@
 from config.db import client
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 def get_users(**filters):
     page = filters.get("page", 1)
     limit = filters.get("limit", 10)
@@ -9,6 +13,7 @@ def get_users(**filters):
     start = (page - 1) * limit
     end = start + limit - 1
 
+    # Build base query for data
     query = (
         client
         .table("users")
@@ -18,18 +23,29 @@ def get_users(**filters):
         .range(start, end)
     )
 
+    # Build count query
+    count_query = (
+        client
+        .table("users")
+        .select("id", count="exact")
+    )
+
     if role:
         query = query.eq("role", role)
+        count_query = count_query.eq("role", role)
 
     if q:
         query = query.ilike("name", f"%{q}%")
+        count_query = count_query.ilike("name", f"%{q}%")
 
+    # Execute queries
     res = query.execute()
+    count_res = count_query.execute()
 
     return {
         "page": page,
         "limit": limit,
-        "total": res.count,
+        "total": count_res.count,
         "items": res.data
     }
 
@@ -43,10 +59,18 @@ def get_all_employees():
         .in_("role", ["staff", "manager"])
     )
 
+    count_query = (
+        client
+        .table("users")
+        .select("id", count="exact")
+        .in_("role", ["staff", "manager"])
+    )
+
     res = query.execute()
+    count_res = count_query.execute()
 
     return {
-        "total": res.count,
+        "total": count_res.count,
         "items": res.data
     }
 
@@ -60,10 +84,18 @@ def get_all_customers():
         .eq("role", "customer")
     )
 
+    count_query = (
+        client
+        .table("users")
+        .select("id", count="exact")
+        .eq("role", "customer")
+    )
+
     res = query.execute()
+    count_res = count_query.execute()
 
     return {
-        "total": res.count,
+        "total": count_res.count,
         "items": res.data
     }
 
