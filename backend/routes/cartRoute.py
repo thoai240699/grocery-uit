@@ -10,3 +10,9 @@ def addProductView(
     data: cartModel.AddNewProduct,
     user_id: str = Depends(ValidateUser(authModel.RolesEnum.customer))):
     return cartController.addProductController(data.product_id, user_id)
+
+@router.get("/get/{product_id}")
+def getProductView(
+    product_id: str,
+    user_id: str = Depends(ValidateUser(authModel.RolesEnum.customer))):
+    return cartController.getProductController(product_id, user_id)

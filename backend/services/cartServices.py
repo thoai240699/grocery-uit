@@ -17,3 +17,12 @@ def addProductService(product_id, user_id):
     return {
         "msg": f"Đã thêm sản phẩm"
     }
+
+def getProductService(product_id, user_id):
+    exist = client.table("cart").select("*").eq("product_id", product_id).eq("user_id", user_id).execute()
+    qty = exist.data[0]['qty']
+    print(qty)
+    
+    return {
+        "qty": qty
+    }
