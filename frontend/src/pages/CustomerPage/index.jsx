@@ -4,6 +4,10 @@ import { axiosClient } from '@/utils/axiosClient'
 import LoaderComponent from '@/components/ui/LoaderComponent'
 import { IoMdSearch, IoMdAdd, IoMdPeople, IoMdMail, IoMdCalendar, IoMdEye, IoMdCreate, IoMdTrash, IoMdCard } from 'react-icons/io'
 import { IoLocation } from 'react-icons/io5'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 const Customers = () => {
   const [customers, setCustomers] = useState([])
@@ -12,7 +16,8 @@ const Customers = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [totalCustomers, setTotalCustomers] = useState(0)
-  const itemsPerPage = 12
+  const [selectedCustomers, setSelectedCustomers] = useState([])
+  const itemsPerPage = 10
 
   // Fetch customers data
   const fetchCustomers = async (page = 1, search = '') => {
@@ -116,6 +121,24 @@ const Customers = () => {
       : 'bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-semibold'
   }
 
+  // Handle select all
+  const handleSelectAll = (checked) => {
+    if (checked) {
+      setSelectedCustomers(customers.map(customer => customer.id))
+    } else {
+      setSelectedCustomers([])
+    }
+  }
+
+  // Handle individual selection
+  const handleSelectCustomer = (customerId, checked) => {
+    if (checked) {
+      setSelectedCustomers(prev => [...prev, customerId])
+    } else {
+      setSelectedCustomers(prev => prev.filter(id => id !== customerId))
+    }
+  }
+
   // useEffect hooks
   useEffect(() => {
     fetchCustomers(1, '')
@@ -179,10 +202,10 @@ const Customers = () => {
           </div>
         </div>
 
-        {/* Customer Grid */}
-        {customers.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-sm p-12">
-            <div className="text-center">
+        {/* Customer Table */}
+        <div className="bg-white rounded-lg border">
+          {customers.length === 0 ? (
+            <div className="text-center py-12">
               <div className="text-6xl mb-4">👥</div>
               <h3 className="text-xl font-semibold text-gray-700 mb-2">
                 Không tìm thấy khách hàng
@@ -191,197 +214,171 @@ const Customers = () => {
                 {searchTerm ? 'Thử tìm kiếm với từ khóa khác' : 'Hãy thêm khách hàng đầu tiên'}
               </p>
             </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {customers.map((customer) => (
-              <div key={customer.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
-                {/* Avatar & Basic Info */}
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="flex-shrink-0">
-                    {customer.avatar_image_uri ? (
-                      <img 
-                        className="h-12 w-12 rounded-full object-cover" 
-                        src={customer.avatar_image_uri} 
-                        alt={customer.name}
+          ) : (
+            <>
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-muted/50">
+                    <TableHead className="w-12">
+                      <Checkbox 
+                        checked={selectedCustomers.length === customers.length}
+                        onCheckedChange={handleSelectAll}
                       />
-                    ) : (
-                      <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
-                        <span className="text-green-600 font-semibold text-lg">
-                          {customer.name?.charAt(0)?.toUpperCase() || '?'}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-semibold text-gray-900 truncate">
-                      {customer.name || 'Chưa cập nhật'}
-                    </h3>
-                    <span className={getStatusBadge(customer.status || 'active')}>
-                      {customer.status === 'active' ? 'Hoạt động' : 'Hoạt động'}
+                    </TableHead>
+                    <TableHead className="font-medium">Khách hàng</TableHead>
+                    <TableHead className="font-medium">Vai trò</TableHead>
+                    <TableHead className="font-medium">Trạng thái</TableHead>
+                    <TableHead className="font-medium">Email</TableHead>
+                    <TableHead className="font-medium">Điện thoại</TableHead>
+                    <TableHead className="font-medium">Ngày tham gia</TableHead>
+                    <TableHead className="font-medium text-right">Thao tác</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {customers.map((customer) => (
+                    <TableRow key={customer.id} className="hover:bg-muted/50">
+                      <TableCell>
+                        <Checkbox 
+                          checked={selectedCustomers.includes(customer.id)}
+                          onCheckedChange={(checked) => handleSelectCustomer(customer.id, checked)}
+                        />
+                      </TableCell>
+                      
+                      <TableCell className="font-medium">
+                        <div className="flex items-center gap-3">
+                          {customer.avatar_image_uri ? (
+                            <img 
+                              className="h-10 w-10 rounded-full object-cover" 
+                              src={customer.avatar_image_uri} 
+                              alt={customer.name}
+                            />
+                          ) : (
+                            <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
+                              <span className="text-muted-foreground font-semibold text-sm">
+                                {customer.name?.charAt(0)?.toUpperCase() || '?'}
+                              </span>
+                            </div>
+                          )}
+                          <span className="font-medium">{customer.name || 'Chưa cập nhật'}</span>
+                        </div>
+                      </TableCell>
+                      
+                      <TableCell>
+                        <Badge variant="secondary" className="capitalize">
+                          {customer.role === 'customer' ? 'Khách hàng' : customer.role}
+                        </Badge>
+                      </TableCell>
+                      
+                      <TableCell>
+                        <Badge variant={customer.status === 'active' ? 'default' : 'destructive'}>
+                          {customer.status === 'active' ? '● Hoạt động' : '● Tạm khóa'}
+                        </Badge>
+                      </TableCell>
+                      
+                      <TableCell className="text-muted-foreground">
+                        {customer.email}
+                      </TableCell>
+                      
+                      <TableCell className="text-muted-foreground">
+                        {customer.phone || '-'}
+                      </TableCell>
+                      
+                      <TableCell className="text-muted-foreground">
+                        {formatDate(customer.created_at)}
+                      </TableCell>
+                      
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-1">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                            title="Xem chi tiết"
+                          >
+                            <IoMdEye className="h-4 w-4" />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                            title="Chỉnh sửa"
+                          >
+                            <IoMdCreate className="h-4 w-4" />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                            onClick={() => handleToggleStatus(customer.id, customer.status || 'active')}
+                            title={customer.status === 'active' ? 'Tạm khóa' : 'Kích hoạt'}
+                          >
+                            {customer.status === 'active' ? '🔒' : '🔓'}
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                            onClick={() => handleDeleteCustomer(customer.id, customer.name)}
+                            title="Xóa khách hàng"
+                          >
+                            <IoMdTrash className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+
+              
+              {/* Table Footer */}
+              <div className="flex items-center justify-between px-4 py-4 border-t">
+                <div className="flex items-center text-sm text-muted-foreground">
+                  {selectedCustomers.length > 0 && (
+                    <span className="mr-4">
+                      {selectedCustomers.length} of {customers.length} row(s) selected.
                     </span>
-                  </div>
-                </div>
-
-                {/* Contact Info */}
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-600">
-                    <IoMdMail className="mr-2 text-gray-400" />
-                    <span className="truncate">{customer.email}</span>
-                  </div>
-                  
-                  {customer.phone && (
-                    <div className="flex items-center text-sm text-gray-600">
-                      <span className="mr-2">📞</span>
-                      <span>{customer.phone}</span>
-                    </div>
                   )}
-                  
-                  {customer.address && (
-                    <div className="flex items-start text-sm text-gray-600">
-                      <IoLocation className="mr-2 mt-0.5 text-gray-400 flex-shrink-0" />
-                      <span className="line-clamp-2">{customer.address}</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Join Date */}
-                <div className="flex items-center text-sm text-gray-500 mb-4">
-                  <IoMdCalendar className="mr-2 text-gray-400" />
-                  <span>Tham gia: {formatDate(customer.created_at)}</span>
-                </div>
-
-                {/* Actions */}
-                <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                  <div className="flex space-x-2">
-                    <button 
-                      className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                      title="Xem chi tiết"
-                    >
-                      <IoMdEye className="text-lg" />
-                    </button>
-                    <button 
-                      className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                      title="Chỉnh sửa"
-                    >
-                      <IoMdCreate className="text-lg" />
-                    </button>
-                    <button 
-                      onClick={() => handleToggleStatus(customer.id, customer.status || 'active')}
-                      className={`p-2 rounded-lg transition-colors ${
-                        customer.status === 'active' 
-                          ? 'text-orange-600 hover:bg-orange-50' 
-                          : 'text-green-600 hover:bg-green-50'
-                      }`}
-                      title={customer.status === 'active' ? 'Tạm khóa' : 'Kích hoạt'}
-                    >
-                      {customer.status === 'active' ? '🔒' : '🔓'}
-                    </button>
-                  </div>
-                  <button 
-                    onClick={() => handleDeleteCustomer(customer.id, customer.name)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                    title="Xóa khách hàng"
-                  >
-                    <IoMdTrash className="text-lg" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex-1 flex justify-between sm:hidden">
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
-                >
-                  Trước
-                </button>
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
-                >
-                  Sau
-                </button>
-              </div>
-              <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-sm text-gray-700">
+                  <span>
                     Hiển thị{' '}
-                    <span className="font-medium">
+                    <span className="font-medium text-foreground">
                       {(currentPage - 1) * itemsPerPage + 1}
                     </span>{' '}
                     đến{' '}
-                    <span className="font-medium">
+                    <span className="font-medium text-foreground">
                       {Math.min(currentPage * itemsPerPage, totalCustomers)}
                     </span>{' '}
                     trong tổng số{' '}
-                    <span className="font-medium">{totalCustomers}</span> khách hàng
-                  </p>
+                    <span className="font-medium text-foreground">{totalCustomers}</span> khách hàng
+                  </span>
                 </div>
-                <div>
-                  <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                    <button
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                      className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                    >
-                      Trước
-                    </button>
-                    
-                    {[...Array(totalPages)].map((_, i) => {
-                      const page = i + 1
-                      if (
-                        page === 1 ||
-                        page === totalPages ||
-                        (page >= currentPage - 1 && page <= currentPage + 1)
-                      ) {
-                        return (
-                          <button
-                            key={page}
-                            onClick={() => handlePageChange(page)}
-                            className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                              currentPage === page
-                                ? 'z-10 bg-green-50 border-green-500 text-green-600'
-                                : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
-                            }`}
-                          >
-                            {page}
-                          </button>
-                        )
-                      } else if (page === currentPage - 2 || page === currentPage + 2) {
-                        return (
-                          <span
-                            key={page}
-                            className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700"
-                          >
-                            ...
-                          </span>
-                        )
-                      }
-                      return null
-                    })}
-                    
-                    <button
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                      className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                    >
-                      Sau
-                    </button>
-                  </nav>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    ← Trước
+                  </Button>
+                  
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    Trang {currentPage} / {totalPages}
+                  </div>
+                  
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                  >
+                    Tiếp →
+                  </Button>
                 </div>
               </div>
-            </div>
-          </div>
-        )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   )
