@@ -42,8 +42,8 @@ const CartButton = ({ product_id }) => {
                 return
             }
 
-            if (user.role != ROLE_TYPE.BUYER) {
-                toast.error("Login With Buyer Account")
+            if (user.role != ROLE_TYPE.CUSTOMER) {
+                toast.error("Login With CUSTOMER Account")
                 return
             }
 
@@ -85,8 +85,7 @@ const CartButton = ({ product_id }) => {
 
 
     useEffect(() => {
-        if (token && user.role == ROLE_TYPE.BUYER) {
-
+        if (token && user.role == ROLE_TYPE.CUSTOMER) {
             fetchExistCart()
         }
     }, [pathname])

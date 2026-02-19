@@ -38,7 +38,7 @@ const WishListPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 via-blue-50 to-white">
+        <div className="min-h-screen bg-linear-to-b from-gray-50 via-blue-50 to-white">
             <style>{`
                 @keyframes slideDownFade {
                     from {
@@ -92,11 +92,11 @@ const WishListPage = () => {
             `}</style>
 
             {/* Header Section */}
-            <div className="bg-gradient-to-r from-white to-blue-50 border-b border-gray-200 sticky top-0 z-10 backdrop-blur-sm bg-opacity-95 shadow-sm">
+            <div className="bg-linear-to-r from-white to-blue-50 border-b border-gray-200 sticky top-0 z-10 backdrop-blur-sm bg-opacity-95 shadow-sm">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 header-animate">
                     <div className="flex items-center gap-2 mb-1">
                         <FiHeart className="text-xl text-red-500 heart-icon-beat" />
-                        <h1 className="text-2xl font-bold bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
+                        <h1 className="text-2xl font-bold bg-linear-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
                             Danh sách yêu thích
                         </h1>
                     </div>
@@ -135,7 +135,7 @@ const WishListPage = () => {
                         </p>
                         <Link
                             to="/products"
-                            className="px-5 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm rounded-lg hover:shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105"
+                            className="px-5 py-2 bg-linear-to-r from-blue-600 to-blue-700 text-white text-sm rounded-lg hover:shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105"
                         >
                             Tiếp tục mua sắm
                         </Link>
@@ -297,7 +297,7 @@ const Card = ({ data, onDelete, onSetProducts }) => {
 
                         {/* Shine Effect */}
                         {hover && (
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-pulse"></div>
+                            <div className="absolute inset-0 bg-linear-to-r from-transparent via-white to-transparent opacity-30 animate-pulse"></div>
                         )}
                     </div>
 
@@ -313,7 +313,7 @@ const Card = ({ data, onDelete, onSetProducts }) => {
                             <p className="text-xs text-gray-500 font-medium">
                                 {moment(data.created_at).format("DD/MM")}
                             </p>
-                            <span className="text-xs bg-gradient-to-r from-blue-100 to-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-medium">
+                            <span className="text-xs bg-linear-to-r from-blue-100 to-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-medium">
                                 {moment(data.created_at).fromNow()}
                             </span>
                         </div>
