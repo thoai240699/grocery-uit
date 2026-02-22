@@ -2,7 +2,7 @@ import { ROLE_TYPE } from '@/constant/auth.constant'
 import { CART_OPERATIONS } from '@/constant/cart.constant'
 import { useAuthContext } from '@/context/AuthContext'
 import { axiosClient } from '@/utils/axiosClient'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { FaMinus, FaPlus, FaTrash } from 'react-icons/fa'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -16,7 +16,7 @@ const CartButton = ({ product_id }) => {
     const { pathname } = useLocation()
     const [loading, setLoading] = useState(true)
 
-    const fetchExistCart = async () => {
+    const fetchExistCart = useCallback(async () => {
         try {
 
             const response = await axiosClient.get("/cart/get/" + product_id, {
@@ -32,7 +32,8 @@ const CartButton = ({ product_id }) => {
         } finally {
             setLoading(false)
         }
-    }
+    }, [product_id])
+
     const addCart = async () => {
         try {
 
@@ -75,7 +76,12 @@ const CartButton = ({ product_id }) => {
 
             const data = await response.data
             toast.success(data.msg)
-            await fetchExistCart()
+
+            if (operation === CART_OPERATIONS.delete) {
+                setQty(0)
+            } else {
+                await fetchExistCart()
+            }
 
         } catch (e) {
             toast.error(e?.response?.data?.detail || e.message)

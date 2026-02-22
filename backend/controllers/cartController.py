@@ -12,3 +12,9 @@ def getProductController(product_id, user_id):
         return cartServices.getProductService(product_id, user_id)
     except Exception as e:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, f"{e}")
+    
+def cartOperationController(product_id, user_id, operation):
+    try:
+        return cartServices.cartOperationService(product_id, user_id, operation)
+    except Exception as e:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, f"{e}")

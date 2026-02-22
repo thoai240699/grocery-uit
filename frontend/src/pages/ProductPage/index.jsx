@@ -140,7 +140,7 @@ const ProductPage = () => {
 
                   {/* Action Buttons */}
                   <div className="flex flex-col sm:flex-row items-center gap-3">
-                    <div className="flex-1 w-full">
+                    <div className="flex-1 max-w-fit">
                       <CartButton product_id={product.id} />
                     </div>
                     <ToggleWishListButton product_id={product.id} />

@@ -1,7 +1,14 @@
 from pydantic import BaseModel, Field
 from datetime import datetime, timezone, timedelta
+from enum import Enum
 
 VN_TZ = timezone(timedelta(hours=7))
+
+class CartOperations(str, Enum):
+    delete = "delete"
+    increment = "increment"
+    decrement = "decrement"
+    
 
 class AddNewProduct(BaseModel):
     product_id: str 

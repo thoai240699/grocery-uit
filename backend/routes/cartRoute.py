@@ -16,3 +16,11 @@ def getProductView(
     product_id: str,
     user_id: str = Depends(ValidateUser(authModel.RolesEnum.customer))):
     return cartController.getProductController(product_id, user_id)
+
+@router.put("/product/{product_id}/{operation}")
+def cartOperationView(
+    product_id: str,
+    operation: cartModel.CartOperations,
+    user_id: str = Depends(ValidateUser(authModel.RolesEnum.customer))
+    ):
+    return cartController.cartOperationController(product_id, user_id, operation)
