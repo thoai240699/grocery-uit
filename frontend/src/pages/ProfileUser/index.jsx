@@ -5,9 +5,16 @@ import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
 
+const getItemId = (item) => item?.id || item?.PROVINCE_ID || item?.DISTRICT_ID || item?.WARDS_ID || item?.provinceId || item?.districtId || item?.wardId || "";
+const getItemName = (item) => item?.name || item?.PROVINCE_NAME || item?.DISTRICT_NAME || item?.WARDS_NAME || item?.provinceName || item?.districtName || item?.wardName || "";
+
 const ProfileUser = () => {
   const { user, fetchUserProfile } = useAuthContext();
   const [isSaving, setIsSaving] = useState(false);
+  const [addressLoading, setAddressLoading] = useState(false);
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
 
   const initialForm = useMemo(() => {
     const dob = user?.dob ? String(user.dob).slice(0, 10) : "";
@@ -15,6 +22,10 @@ const ProfileUser = () => {
       name: user?.name || "",
       phone: user?.phone || "",
       address: user?.address || "",
+      street: "",
+      province_id: "",
+      district_id: "",
+      ward_id: "",
       dob,
     };
   }, [user?.address, user?.dob, user?.name, user?.phone]);
@@ -33,8 +44,55 @@ const ProfileUser = () => {
   const isDirty =
     form.name !== initialForm.name ||
     form.phone !== initialForm.phone ||
-    form.address !== initialForm.address ||
+    form.street !== initialForm.street ||
+    form.province_id !== initialForm.province_id ||
+    form.district_id !== initialForm.district_id ||
+    form.ward_id !== initialForm.ward_id ||
     form.dob !== initialForm.dob;
+
+  const fetchProvinces = async () => {
+    try {
+      setAddressLoading(true);
+      const response = await axiosClient.get("/address/viettel-post/provinces");
+      setProvinces(response?.data?.items || []);
+    } catch (error) {
+      toast.error(error?.response?.data?.detail || "Không tải được danh sách tỉnh/thành phố");
+    } finally {
+      setAddressLoading(false);
+    }
+  };
+
+  const fetchDistricts = async (provinceId) => {
+    if (!provinceId) {
+      setDistricts([]);
+      return;
+    }
+    try {
+      setAddressLoading(true);
+      const response = await axiosClient.get(`/address/viettel-post/districts/${provinceId}`);
+      setDistricts(response?.data?.items || []);
+    } catch (error) {
+      toast.error(error?.response?.data?.detail || "Không tải được danh sách quận/huyện");
+    } finally {
+      setAddressLoading(false);
+    }
+  };
+
+  const fetchWards = async (districtId) => {
+    if (!districtId) {
+      setWards([]);
+      return;
+    }
+    try {
+      setAddressLoading(true);
+      const response = await axiosClient.get(`/address/viettel-post/wards/${districtId}`);
+      setWards(response?.data?.items || []);
+    } catch (error) {
+      toast.error(error?.response?.data?.detail || "Không tải được danh sách phường/xã");
+    } finally {
+      setAddressLoading(false);
+    }
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -46,7 +104,30 @@ const ProfileUser = () => {
       const payload = {};
       if (form.name.trim() && form.name.trim() !== initialForm.name) payload.name = form.name.trim();
       if (form.phone.trim() && form.phone.trim() !== initialForm.phone) payload.phone = form.phone.trim();
-      if (form.address.trim() && form.address.trim() !== initialForm.address) payload.address = form.address.trim();
+
+      const hasAddressInput = form.street.trim() || form.province_id || form.district_id || form.ward_id;
+      if (hasAddressInput) {
+        if (!form.street.trim() || !form.province_id || !form.district_id || !form.ward_id) {
+          toast.error("Vui lòng chọn đầy đủ tỉnh/quận/phường và nhập số nhà, tên đường");
+          return;
+        }
+
+        const province = provinces.find((item) => String(getItemId(item)) === String(form.province_id));
+        const district = districts.find((item) => String(getItemId(item)) === String(form.district_id));
+        const ward = wards.find((item) => String(getItemId(item)) === String(form.ward_id));
+
+        const fullAddress = [
+          form.street.trim(),
+          ward ? getItemName(ward) : "",
+          district ? getItemName(district) : "",
+          province ? getItemName(province) : "",
+        ].filter(Boolean).join(", ");
+
+        if (fullAddress && fullAddress !== initialForm.address) {
+          payload.address = fullAddress;
+        }
+      }
+
       if (form.dob) payload.dob = form.dob;
 
       if (!Object.keys(payload).length) {
@@ -67,13 +148,17 @@ const ProfileUser = () => {
     }
   };
 
+  useEffect(() => {
+    fetchProvinces();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-blue-50">
+    <div className="min-h-screen bg-linear-to-b from-slate-50 via-white to-blue-50">
       {/* Header Section */}
       <section className="relative pt-20 pb-12 md:pt-32 md:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-linear-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 pointer-events-none"></div>
         <div className="relative max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl md:text-6xl font-bold bg-linear-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
             Hồ Sơ Của Tôi
           </h1>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
@@ -88,7 +173,7 @@ const ProfileUser = () => {
           {/* Avatar Section */}
           <div className="md:col-span-1">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-20">
-              <h3 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
+              <h3 className="text-lg font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
                 Ảnh Đại Diện
               </h3>
               <p className="text-sm text-gray-600 mb-6">Nhấn vào ảnh để tải lên hình mới</p>
@@ -143,7 +228,6 @@ const ProfileUser = () => {
                     placeholder="09xxxxxxxxx"
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
-                  <p className="text-xs text-gray-500 mt-2">Sẽ dùng cho liên hệ giao hàng</p>
                 </div>
 
                 {/* Address Field */}
@@ -151,14 +235,81 @@ const ProfileUser = () => {
                   <label className="block text-sm font-semibold text-gray-700 mb-3">
                     Địa Chỉ
                   </label>
-                  <input
-                    name="address"
-                    value={form.address}
-                    onChange={onChange}
-                    placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố..."
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  />
-                  <p className="text-xs text-gray-500 mt-2">Địa chỉ giao hàng mặc định</p>
+                  <div className="space-y-3">
+                    <input
+                      name="street"
+                      value={form.street}
+                      onChange={onChange}
+                      placeholder="Số nhà, tên đường"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    />
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <select
+                        name="province_id"
+                        value={form.province_id}
+                        onChange={async (e) => {
+                          const provinceId = e.target.value;
+                          setForm((prev) => ({
+                            ...prev,
+                            province_id: provinceId,
+                            district_id: "",
+                            ward_id: "",
+                          }));
+                          setDistricts([]);
+                          setWards([]);
+                          await fetchDistricts(provinceId);
+                        }}
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        disabled={addressLoading}
+                      >
+                        <option value="">Tỉnh/Thành phố</option>
+                        {provinces.map((item) => (
+                          <option key={String(getItemId(item))} value={String(getItemId(item))}>{getItemName(item)}</option>
+                        ))}
+                      </select>
+
+                      <select
+                        name="district_id"
+                        value={form.district_id}
+                        onChange={async (e) => {
+                          const districtId = e.target.value;
+                          setForm((prev) => ({
+                            ...prev,
+                            district_id: districtId,
+                            ward_id: "",
+                          }));
+                          setWards([]);
+                          await fetchWards(districtId);
+                        }}
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        disabled={!form.province_id || addressLoading}
+                      >
+                        <option value="">Quận/Huyện</option>
+                        {districts.map((item) => (
+                          <option key={String(getItemId(item))} value={String(getItemId(item))}>{getItemName(item)}</option>
+                        ))}
+                      </select>
+
+                      <select
+                        name="ward_id"
+                        value={form.ward_id}
+                        onChange={(e) => setForm((prev) => ({ ...prev, ward_id: e.target.value }))}
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        disabled={!form.district_id || addressLoading}
+                      >
+                        <option value="">Phường/Xã</option>
+                        {wards.map((item) => (
+                          <option key={String(getItemId(item))} value={String(getItemId(item))}>{getItemName(item)}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {initialForm.address ? (
+                      <p className="text-xs text-gray-500">Địa chỉ hiện tại: <span className="font-medium text-gray-700">{initialForm.address}</span></p>
+                    ) : null}
+
+                  </div>
                 </div>
 
                 {/* Date of Birth Field */}
@@ -173,7 +324,6 @@ const ProfileUser = () => {
                     onChange={onChange}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
-                  <p className="text-xs text-gray-500 mt-2">Dùng để xác minh tuổi</p>
                 </div>
 
                 {/* Action Buttons */}
@@ -190,22 +340,13 @@ const ProfileUser = () => {
                   <button
                     type="submit"
                     disabled={isSaving || !isDirty}
-                    className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
                     <IoMdCheckmark className="text-lg" />
                     {isSaving ? "Đang Lưu..." : "Lưu Thay Đổi"}
                   </button>
                 </div>
               </form>
-            </div>
-
-            {/* Info Box */}
-            <div className="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6">
-              <h4 className="font-semibold text-blue-900 mb-2">💡 Mẹo</h4>
-              <p className="text-sm text-blue-800">
-                Đảm bảo thông tin cá nhân của bạn được cập nhật chính xác để tránh sai sót khi giao hàng.
-                Bạn có thể thay đổi thông tin này bất kỳ lúc nào.
-              </p>
             </div>
           </div>
         </div>
