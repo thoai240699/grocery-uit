@@ -21,6 +21,9 @@ import AdminAllProducts from './pages/Products/AdminAllProduct'
 import Employees from './pages/EmployeePage'
 import Customers from './pages/CustomerPage'
 import WishList from './pages/WishListPage'
+import CheckoutPage from './pages/CheckoutPage'
+import SuccessPage from './pages/CheckoutPage/SuccessPage'
+import FailedPage from './pages/CheckoutPage/FailedPage'
 
 const App = () => {
   return (
@@ -38,6 +41,9 @@ const App = () => {
 
             <Route element={<RoleLayout role={"customer"} />} >
               <Route path="wishlist" element={<WishList />} />
+              <Route path='checkout' element={<CheckoutPage />} />
+              <Route path='checkout/success' element={<SuccessPage />} />
+              <Route path='checkout/failed' element={<FailedPage />} />
             </Route>
 
             <Route element={<RoleLayout role={"staff"} />}>

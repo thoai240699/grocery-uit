@@ -7,6 +7,8 @@ from routes.admin.productRoute import router as AdminProductRouter
 from routes.admin.userRoute import router as AdminUserRouter
 from routes.wishListRoute import router as WishListRouter
 from routes.cartRoute import router as CartRouter
+from routes.checkoutRoute import router as CheckoutRouter
+from routes.addressRoute import router as AddressRouter
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -44,6 +46,8 @@ app.include_router(CategoryRouter)
 app.include_router(ChatRouter)
 app.include_router(WishListRouter)
 app.include_router(CartRouter)
+app.include_router(CheckoutRouter)
+app.include_router(AddressRouter)
 
 @app.get('/',tags=['health'])
 def healthRoute():
