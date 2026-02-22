@@ -69,7 +69,7 @@ def cartOperationService(product_id, user_id, operation):
             }
         
 def getProductsService(userId: str):
-    cart_result = client.table("cart").select("*").eq("is_purchased", False).eq("user_id", userId).execute()
+    cart_result = client.table("cart").select("*").eq("is_purchased", False).eq("user_id", userId).order("created_at", desc=False).execute()
     cart_items = cart_result.data or []
 
     if not cart_items:

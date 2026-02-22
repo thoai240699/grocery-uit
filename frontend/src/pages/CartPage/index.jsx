@@ -93,7 +93,7 @@ const CartPage = () => {
 
               {
                 cartData.products && cartData.products.length > 0 && cartData.products.map((cur, i) => {
-                  return <CartItemCard key={i} fetchAllProducts={fetchAllProducts} data={cur} />
+                  return <CartItemCard key={cur.id} fetchAllProducts={fetchAllProducts} data={cur} />
                 })
               }
 
