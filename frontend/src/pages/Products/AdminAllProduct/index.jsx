@@ -2,7 +2,7 @@ import LoaderComponent from '@/components/ui/LoaderComponent'
 import { axiosClient } from '@/utils/axiosClient'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { IoMdTrash, IoMdSearch, IoMdClose, IoMdArrowDropdown, IoMdAdd } from 'react-icons/io'
+import { IoMdSearch, IoMdClose, IoMdArrowDropdown, IoMdAdd } from 'react-icons/io'
 import { Link } from 'react-router-dom'
 
 const AdminAllProducts = () => {
@@ -117,7 +117,7 @@ const AdminAllProducts = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50">
+            <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 via-blue-50 to-slate-50">
                 <LoaderComponent />
             </div>
         )
@@ -126,14 +126,14 @@ const AdminAllProducts = () => {
     const totalPages = Math.ceil(totalProducts / filters.limit)
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-blue-50">
+        <div className="min-h-screen bg-linear-to-b from-slate-50 via-white to-blue-50">
             {/* Header Section */}
             <section className="relative pt-20 pb-12 md:pt-32 md:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-linear-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 pointer-events-none"></div>
                 <div className="relative max-w-7xl mx-auto">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                         <div>
-                            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+                            <h1 className="text-4xl md:text-6xl font-bold bg-linear-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
                                 Quản Lý Sản Phẩm
                             </h1>
                             <p className="text-lg md:text-xl text-gray-600">
@@ -142,7 +142,7 @@ const AdminAllProducts = () => {
                         </div>
                         <Link
                             to="/admin/add-product"
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all"
                         >
                             <IoMdAdd className="text-xl" />
                             Thêm Sản Phẩm
@@ -174,17 +174,16 @@ const AdminAllProducts = () => {
 
                             {/* Category Filter */}
                             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                                <h3 className="text-sm font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+                                <h3 className="text-sm font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
                                     Danh Mục
                                 </h3>
                                 <div className="space-y-2">
                                     <button
                                         onClick={() => setFilters(prev => ({ ...prev, category: '', page: 1 }))}
-                                        className={`w-full px-4 py-2.5 rounded-lg text-left font-medium transition-all ${
-                                            filters.category === ''
-                                                ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                                        className={`w-full px-4 py-2.5 rounded-lg text-left font-medium transition-all ${filters.category === ''
+                                                ? 'bg-linear-to-r from-blue-500 to-purple-500 text-white shadow-lg'
                                                 : 'text-gray-700 hover:bg-gray-50'
-                                        }`}
+                                            }`}
                                     >
                                         Tất Cả
                                     </button>
@@ -192,11 +191,10 @@ const AdminAllProducts = () => {
                                         <button
                                             key={cat.id}
                                             onClick={() => setFilters(prev => ({ ...prev, category: cat.name, page: 1 }))}
-                                            className={`w-full px-4 py-2.5 rounded-lg text-left font-medium transition-all ${
-                                                filters.category === cat.name
-                                                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                                            className={`w-full px-4 py-2.5 rounded-lg text-left font-medium transition-all ${filters.category === cat.name
+                                                    ? 'bg-linear-to-r from-blue-500 to-purple-500 text-white shadow-lg'
                                                     : 'text-gray-700 hover:bg-gray-50'
-                                            }`}
+                                                }`}
                                         >
                                             {cat.name}
                                         </button>
@@ -254,7 +252,7 @@ const AdminAllProducts = () => {
                             {(filters.category || filters.q || filters.min_price || filters.max_price || filters.sort) && (
                                 <button
                                     onClick={resetFilters}
-                                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-red-500/10 to-pink-500/10 text-red-600 px-4 py-3 rounded-lg border border-red-200 hover:bg-gradient-to-r hover:from-red-500/20 hover:to-pink-500/20 transition-all"
+                                    className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-red-500/10 to-pink-500/10 text-red-600 px-4 py-3 rounded-lg border border-red-200 hover:bg-linear-to-r hover:from-red-500/20 hover:to-pink-500/20 transition-all"
                                 >
                                     <IoMdClose className="text-lg" />
                                     Xóa Bộ Lọc
@@ -270,7 +268,7 @@ const AdminAllProducts = () => {
                                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                                     <div className="overflow-x-auto">
                                         <table className="w-full">
-                                            <thead className="bg-gradient-to-r from-blue-50 to-purple-50 border-b border-gray-200">
+                                            <thead className="bg-linear-to-r from-blue-50 to-purple-50 border-b border-gray-200">
                                                 <tr>
                                                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Sản Phẩm</th>
                                                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Danh Mục</th>
@@ -340,11 +338,10 @@ const AdminAllProducts = () => {
                                                         <button
                                                             key={pageNum}
                                                             onClick={() => setFilters(prev => ({ ...prev, page: pageNum }))}
-                                                            className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-                                                                filters.page === pageNum
-                                                                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                                                            className={`px-4 py-2 rounded-lg font-semibold transition-all ${filters.page === pageNum
+                                                                    ? 'bg-linear-to-r from-blue-500 to-purple-500 text-white shadow-lg'
                                                                     : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
-                                                            }`}
+                                                                }`}
                                                         >
                                                             {pageNum}
                                                         </button>
@@ -377,7 +374,7 @@ const AdminAllProducts = () => {
                                 <p className="text-gray-600 text-center mb-8">Hãy thêm sản phẩm đầu tiên của bạn</p>
                                 <Link
                                     to="/admin/add-product"
-                                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
                                 >
                                     <IoMdAdd className="text-lg" />
                                     Thêm Sản Phẩm

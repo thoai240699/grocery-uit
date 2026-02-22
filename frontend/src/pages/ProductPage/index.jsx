@@ -46,19 +46,19 @@ const ProductPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 via-blue-50 to-slate-50">
         <LoaderComponent />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-blue-50">
+    <div className="min-h-screen bg-linear-to-b from-slate-50 via-white to-blue-50">
       {/* Header Section */}
       <section className="relative pt-20 pb-8 md:pt-24 md:pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-linear-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 pointer-events-none"></div>
         <div className="relative max-w-7xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 rounded-full text-sm font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-100 to-purple-100 text-blue-700 rounded-full text-sm font-semibold mb-4">
             <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
             {product.category?.name || 'Sản phẩm'}
           </div>
@@ -71,7 +71,7 @@ const ProductPage = () => {
           <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
               {/* Image Section */}
-              <div className="relative bg-gradient-to-br from-slate-50 via-white to-blue-50 p-8 lg:p-12 flex items-center justify-center min-h-[500px] lg:min-h-[600px]">
+              <div className="relative bg-linear-to-br from-slate-50 via-white to-blue-50 p-8 lg:p-12 flex items-center justify-center min-h-125 lg:min-h-150">
                 <div className="w-full">
                   <div className="aspect-square bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-300">
                     <img
@@ -87,7 +87,7 @@ const ProductPage = () => {
               <div className="p-8 lg:p-12 flex flex-col">
                 {/* Header */}
                 <div className="mb-8">
-                  <h1 className="text-xl lg:text-3xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent mb-4 leading-tight">
+                  <h1 className="text-xl lg:text-3xl font-bold bg-linear-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent mb-4 leading-tight">
                     {product.name}
                   </h1>
                 </div>
@@ -120,7 +120,7 @@ const ProductPage = () => {
                 {/* Description */}
                 <div className="mb-8">
                   <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
-                    <span className="w-1 h-6 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></span>
+                    <span className="w-1 h-6 bg-linear-to-b from-blue-500 to-purple-500 rounded-full"></span>
                     Mô Tả Sản Phẩm
                   </h3>
                   <p className="text-gray-600 leading-relaxed text-base">
@@ -131,9 +131,9 @@ const ProductPage = () => {
                 {/* Price & Actions */}
                 <div className="mt-auto space-y-6">
                   {/* Price */}
-                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-100">
+                  <div className="bg-linear-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-100">
                     <p className="text-gray-600 text-sm font-medium mb-2">Giá hiện tại</p>
-                    <span className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    <span className="text-5xl font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                       {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price || 0)}
                     </span>
                   </div>
@@ -158,7 +158,7 @@ const ProductPage = () => {
                           const url = `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`;
                           window.open(url, '_blank', 'width=600,height=400');
                         }}
-                        className="p-3 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 hover:shadow-lg text-blue-600 rounded-xl transition-all duration-300 group"
+                        className="p-3 bg-linear-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 hover:shadow-lg text-blue-600 rounded-xl transition-all duration-300 group"
                       >
                         <svg fill="currentColor" className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
                           <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
@@ -170,7 +170,7 @@ const ProductPage = () => {
                           const url = `https://zalo.me/?text=${encodeURIComponent(text)}`;
                           window.open(url, '_blank', 'width=600,height=400');
                         }}
-                        className="p-3 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 hover:shadow-lg text-blue-600 rounded-xl transition-all duration-300 group"
+                        className="p-3 bg-linear-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 hover:shadow-lg text-blue-600 rounded-xl transition-all duration-300 group"
                       >
                         <svg fill="currentColor" className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
                           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
@@ -178,11 +178,10 @@ const ProductPage = () => {
                       </button>
                       <button
                         onClick={() => {
-                          const url = `https://www.instagram.com/?text=${encodeURIComponent(`Xem sản phẩm: ${product.name}`)}`;
                           window.open(`https://www.instagram.com/`, '_blank');
                           toast.info('Sao chép đường dẫn để chia sẻ trên Instagram');
                         }}
-                        className="p-3 bg-gradient-to-r from-pink-50 to-rose-100 hover:from-pink-100 hover:to-rose-200 hover:shadow-lg text-pink-600 rounded-xl transition-all duration-300 group"
+                        className="p-3 bg-linear-to-r from-pink-50 to-rose-100 hover:from-pink-100 hover:to-rose-200 hover:shadow-lg text-pink-600 rounded-xl transition-all duration-300 group"
                       >
                         <svg fill="currentColor" className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
                           <path d="M12 2.163c3.204 0 3.584.011 4.85.069 1.366.062 2.633.338 3.608 1.313.975.975 1.251 2.242 1.313 3.608.058 1.266.069 1.646.069 4.85s-.011 3.584-.069 4.85c-.062 1.366-.338 2.633-1.313 3.608-.975.975-2.242 1.251-3.608 1.313-1.266.058-1.646.069-4.85.069s-3.584-.011-4.85-.069c-1.366-.062-2.633-.338-3.608-1.313-.975-.975-1.251-2.242-1.313-3.608-.058-1.266-.069-1.646-.069-4.85s.011-3.584.069-4.85c.062-1.366.338-2.633 1.313-3.608.975-.975 2.242-1.251 3.608-1.313 1.266-.058 1.646-.069 4.85-.069m0-2.163C8.695 0 8.287.012 7.061.069c-1.608.074-3.084.371-4.308 1.595C1.529 2.888 1.232 4.364 1.158 5.972.101 7.198.088 7.606.088 12c0 4.394.012 4.802.069 6.028.074 1.608.371 3.084 1.595 4.308 1.224 1.224 2.7 1.521 4.308 1.595 1.226.057 1.634.069 6.028.069s4.802-.012 6.028-.069c1.608-.074 3.084-.371 4.308-1.595 1.224-1.224 1.521-2.7 1.595-4.308.057-1.226.069-1.634.069-6.028s-.012-4.802-.069-6.028c-.074-1.608-.371-3.084-1.595-4.308-1.224-1.224-2.7-1.521-4.308-1.595C15.202.012 14.794 0 10 0z" />
@@ -244,7 +243,7 @@ const ToggleWishListButton = memo(function ToggleWishListButton({ product_id }) 
           toast.error("Vui lòng đăng nhập")
           navigate("/login")
         }}
-        className="p-4 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 rounded-xl transition-all duration-300 group"
+        className="p-4 bg-linear-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 rounded-xl transition-all duration-300 group"
       >
         <svg
           fill="currentColor"
@@ -287,8 +286,8 @@ const ToggleWishListButton = memo(function ToggleWishListButton({ product_id }) 
       className={clsx(
         "p-4 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md",
         isLiked
-          ? "bg-gradient-to-r from-red-50 to-pink-50 text-red-500 hover:from-red-100 hover:to-pink-100"
-          : "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-600 hover:from-gray-200 hover:to-gray-300"
+          ? "bg-linear-to-r from-red-50 to-pink-50 text-red-500 hover:from-red-100 hover:to-pink-100"
+          : "bg-linear-to-r from-gray-100 to-gray-200 text-gray-600 hover:from-gray-200 hover:to-gray-300"
       )}
     >
       {loading ? (

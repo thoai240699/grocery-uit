@@ -110,31 +110,6 @@ const CheckoutPage = () => {
         }
     }
 
-    const confirmPayment = async () => {
-        try {
-            if (!pendingPayment?.orderId || !pendingPayment?.payment_method) return
-            setSubmitting(true)
-            const token = localStorage.getItem('token')
-
-            await axiosClient.post('/checkout/confirm', {
-                order_id: pendingPayment.orderId,
-                payment_method: pendingPayment.payment_method,
-            }, {
-                headers: {
-                    Authorization: 'Bearer ' + token
-                }
-            })
-
-            setPendingPayment(null)
-            toast.success('Thanh toán/đặt hàng thành công')
-            navigate(`/checkout/success?orderId=${pendingPayment.orderId}`)
-        } catch (error) {
-            toast.error(error?.response?.data?.detail || error.message)
-        } finally {
-            setSubmitting(false)
-        }
-    }
-
     const onSubmitHandler = async (values) => {
         try {
             setSubmitting(true)
@@ -346,28 +321,15 @@ const CheckoutPage = () => {
                                                         {pendingPayment.receiverName ? <p className='text-sm text-gray-700'>Người nhận: <span className='font-semibold'>{pendingPayment.receiverName}</span></p> : null}
                                                         {pendingPayment.receiverPhone ? <p className='text-sm text-gray-700'>SĐT MoMo: <span className='font-semibold'>{pendingPayment.receiverPhone}</span></p> : null}
                                                         <p className='text-sm text-gray-700'>Số tiền: <span className='font-semibold'>{formatVnd(pendingPayment.amount)}</span></p>
-                                                        <button
-                                                            type='button'
-                                                            onClick={confirmPayment}
-                                                            disabled={submitting}
-                                                            className='mt-4 w-full py-2 text-white rounded-md bg-blue-600 hover:bg-blue-700 disabled:opacity-50'
-                                                        >
-                                                            Tôi đã chuyển khoản xong
-                                                        </button>
+                                                        <p className='text-sm mt-4 text-amber-700 bg-amber-50 border border-amber-200 rounded-md p-3'>
+                                                            Sau khi chuyển khoản, đơn hàng sẽ ở trạng thái chờ và được nhân viên xác nhận thanh toán.
+                                                        </p>
                                                     </div>
                                                 ) : null}
 
                                                 {pendingPayment?.payment_method === 'mock' ? (
                                                     <div className='sm:col-span-2 border rounded-xl p-4 bg-gray-50'>
-                                                        <p className='text-sm text-gray-700 mb-3'>Đang ở chế độ mock. Bấm xác nhận để hoàn tất đơn hàng.</p>
-                                                        <button
-                                                            type='button'
-                                                            onClick={confirmPayment}
-                                                            disabled={submitting}
-                                                            className='w-full py-2 text-white rounded-md bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50'
-                                                        >
-                                                            Xác nhận thanh toán mock thành công
-                                                        </button>
+                                                        <p className='text-sm text-gray-700'>Đơn mock đã được tạo và đang chờ nhân viên xác nhận thanh toán.</p>
                                                     </div>
                                                 ) : null}
                                             </div>

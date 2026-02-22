@@ -17,10 +17,10 @@ def create_checkout_controller(payload: CreateCheckoutBody, user_id: str):
         raise HTTPException(status_code=400, detail=f"{exc}")
 
 
-def confirm_checkout_controller(payload: ConfirmCheckoutBody, user_id: str):
+def confirm_checkout_controller(payload: ConfirmCheckoutBody, staff_id: str):
     try:
         return confirm_checkout_service(
-            user_id=user_id,
+            staff_id=staff_id,
             order_id=payload.order_id,
             payment_method=payload.payment_method,
         )

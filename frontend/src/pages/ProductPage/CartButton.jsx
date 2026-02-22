@@ -101,7 +101,7 @@ const CartButton = ({ product_id }) => {
     return (
         <>
             {parseInt(qty) > 0 ? (
-                <div className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-1 shadow-lg hover:shadow-xl transition-all">
+                <div className="flex items-center gap-2 bg-linear-to-r from-blue-500 to-purple-600 rounded-xl p-1 shadow-lg hover:shadow-xl transition-all">
                     <button
                         onClick={() => cartOperation(CART_OPERATIONS.decrement)}
                         className="p-3 hover:bg-red-500 rounded-lg transition-all duration-300 text-white hover:scale-110 bg-red-400"
@@ -126,7 +126,7 @@ const CartButton = ({ product_id }) => {
                 <button
                     disabled={loading}
                     onClick={addCart}
-                    className="py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold text-sm rounded-xl hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group whitespace-nowrap"
+                    className="py-3 px-4 bg-linear-to-r from-blue-500 to-purple-600 text-white font-semibold text-sm rounded-xl hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group whitespace-nowrap"
                 >
                     <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />

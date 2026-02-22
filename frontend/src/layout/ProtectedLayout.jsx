@@ -36,7 +36,7 @@ const ProtectedLayout = () => {
   }
 
   return (
-    <div className="flex items-start bg-gradient-to-b from-slate-50 via-blue-50/30 to-white min-h-screen">
+    <div className="flex items-start bg-linear-to-b from-slate-50 via-blue-50/30 to-white min-h-screen">
       <Sidebar
         toggled={isToggle}
         collapsed={isCollapse}
@@ -126,6 +126,13 @@ const ProtectedLayout = () => {
                     Thêm danh mục sản phẩm
                   </MenuItem>
                 </SubMenu>
+
+                <MenuItem
+                  icon={<IoBagCheckOutline className="text-2xl text-violet-600" />}
+                  component={<Link to="/staff/orders" />}
+                >
+                  Quản lý đơn
+                </MenuItem>
               </>
             ) : (<></>)}
 
@@ -179,7 +186,7 @@ const ProtectedLayout = () => {
         </Menu>
       </Sidebar>
 
-      <main className="p-4 sm:p-6 lg:p-8 flex-grow">
+      <main className="p-4 sm:p-6 lg:p-8 grow">
         <div className="bg-white/80 backdrop-blur-sm mt-5 rounded-2xl shadow-lg p-6 border border-gray-200">
           <Outlet />
         </div>

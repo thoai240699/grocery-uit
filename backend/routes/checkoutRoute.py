@@ -19,6 +19,6 @@ def create_checkout_view(
 @router.post("/confirm")
 def confirm_checkout_view(
     payload: ConfirmCheckoutBody,
-    user_id: str = Depends(ValidateUser(authModel.RolesEnum.customer)),
+    staff_id: str = Depends(ValidateUser(authModel.RolesEnum.staff)),
 ):
-    return confirm_checkout_controller(payload, user_id)
+    return confirm_checkout_controller(payload, staff_id)

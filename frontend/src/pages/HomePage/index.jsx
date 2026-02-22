@@ -105,7 +105,7 @@ const HomePage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 via-blue-50 to-slate-50">
         <LoaderComponent />
       </div>
     )
@@ -114,7 +114,7 @@ const HomePage = () => {
   const totalPages = Math.ceil(totalProducts / filters.limit)
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-blue-50">
+    <div className="min-h-screen bg-linear-to-b from-slate-50 via-white to-blue-50">
       {/* Main Content Area */}
       <section className="w-full pt-8 pb-20">
         <div className="px-4 sm:px-6 lg:px-8">
@@ -127,7 +127,7 @@ const HomePage = () => {
                     <button
                       onClick={() => setFilters(prev => ({ ...prev, category: '', page: 1 })) || setActiveCategory('')}
                       className={`w-full px-4 py-3 rounded-xl text-left font-medium transition-all duration-300 ${filters.category === ''
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg shadow-purple-500/30'
+                        ? 'bg-linear-to-r from-blue-500 to-purple-500 text-white shadow-lg shadow-purple-500/30'
                         : 'text-gray-700 hover:bg-gray-50'
                         }`}
                     >
@@ -141,7 +141,7 @@ const HomePage = () => {
                           setActiveCategory(cat.name)
                         }}
                         className={`w-full px-4 py-3 rounded-xl text-left font-medium transition-all duration-300 ${filters.category === cat.name
-                          ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg shadow-purple-500/30'
+                          ? 'bg-linear-to-r from-blue-500 to-purple-500 text-white shadow-lg shadow-purple-500/30'
                           : 'text-gray-700 hover:bg-gray-50'
                           }`}
                       >
@@ -256,7 +256,7 @@ const HomePage = () => {
                                 onClick={() => setFilters(prev => ({ ...prev, page: pageNum }))}
                                 className={`
                                   cursor-pointer px-4 py-2 rounded-lg font-semibold transition-all ${filters.page === pageNum
-                                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg shadow-purple-500/30'
+                                    ? 'bg-linear-to-r from-blue-500 to-purple-500 text-white shadow-lg shadow-purple-500/30'
                                     : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
                                   }`}
                               >
@@ -290,7 +290,7 @@ const HomePage = () => {
                   <h3 className="text-3xl font-bold text-gray-800 mb-3">Không Tìm Thấy Sản Phẩm</h3>
                   <button
                     onClick={resetFilters}
-                    className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all"
+                    className="px-8 py-3 bg-linear-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all"
                   >
                     Xóa Bộ Lọc
                   </button>
@@ -332,7 +332,7 @@ const ProductCard = ({ data }) => {
 
         {/* Content */}
         <div className="p-4 flex flex-col flex-1">
-          <h3 className="text-sm font-bold text-gray-900 line-clamp-2 mb-1 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:bg-clip-text transition-all">
+          <h3 className="text-sm font-bold text-gray-900 line-clamp-2 mb-1 group-hover:text-transparent group-hover:bg-linear-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:bg-clip-text transition-all">
             {data?.name}
           </h3>
           <p className="text-xs text-gray-500 mb-3 line-clamp-1">
@@ -342,7 +342,7 @@ const ProductCard = ({ data }) => {
           {/* Price Section */}
           <div className="mt-auto">
             <div className="flex items-baseline justify-between">
-              <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-lg font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data?.price || 0)}
               </span>
               <span className="text-[10px] text-gray-400 group-hover:text-purple-600 transition-colors">

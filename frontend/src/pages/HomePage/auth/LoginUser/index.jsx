@@ -1,5 +1,6 @@
 import AuthButton from "@/components/ui/AuthButton";
 import Logo from "@/components/ui/Logo";
+import { ROLE_TYPE } from "@/constant/auth.constant";
 import { useAuthContext } from "@/context/AuthContext";
 import { axiosClient } from "@/utils/axiosClient";
 import { ErrorMessage, Field, Form, Formik } from "formik";
@@ -23,12 +24,16 @@ const LoginUser = () => {
       const data = response.data
 
       localStorage.setItem("token", data.token)
-      await fetchUserProfile()
+      const profile = await fetchUserProfile()
       toast.success(data.msg)
 
       helpers.resetForm()
 
-      navigate("/dashboard")
+      if (profile?.role === ROLE_TYPE.CUSTOMER) {
+        navigate("/")
+      } else {
+        navigate("/dashboard")
+      }
     } catch (e) {
       console.log(e)
       toast.error(e.response?.data?.detail || e.message)
@@ -43,18 +48,18 @@ const LoginUser = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Card */}
         <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 relative overflow-hidden">
           {/* Gradient Background Effects */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl -z-10"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-purple-400/20 to-pink-400/20 rounded-full blur-3xl -z-10"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl -z-10"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-linear-to-tr from-purple-400/20 to-pink-400/20 rounded-full blur-3xl -z-10"></div>
 
           {/* Logo */}
           <div className="mb-8 text-center">
             <Logo className="mx-auto block mb-4" />
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+            <h1 className="text-3xl font-bold bg-linear-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
               Chào Mừng Trở Lại
             </h1>
             <p className="text-gray-600 text-sm">Đăng nhập để tiếp tục mua sắm</p>
@@ -121,7 +126,7 @@ const LoginUser = () => {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-semibold hover:shadow-xl hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                    className="w-full py-3.5 px-6 rounded-xl bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-semibold hover:shadow-xl hover:shadow-purple-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                   >
                     {isLoading ? (
                       <div className="flex items-center justify-center gap-2">
@@ -136,9 +141,9 @@ const LoginUser = () => {
 
                 {/* Divider */}
                 <div className="flex items-center gap-4 py-2">
-                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+                  <div className="flex-1 h-px bg-linear-to-r from-transparent via-gray-300 to-transparent"></div>
                   <span className="text-sm text-gray-500 font-medium">Hoặc</span>
-                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+                  <div className="flex-1 h-px bg-linear-to-r from-transparent via-gray-300 to-transparent"></div>
                 </div>
 
                 {/* Register Link */}
@@ -147,7 +152,7 @@ const LoginUser = () => {
                     Bạn chưa có tài khoản?{' '}
                     <Link
                       to="/register"
-                      className="font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 transition-all cursor-pointer"
+                      className="font-semibold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 transition-all cursor-pointer"
                     >
                       Đăng ký ngay
                     </Link>

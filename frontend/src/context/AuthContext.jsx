@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext({
   user: null,
-  fetchUserProfile: () => {},
-  logoutUser: () => {},
+  fetchUserProfile: () => { },
+  logoutUser: () => { },
 });
 
 export const useAuthContext = () => useContext(AuthContext);
@@ -22,21 +22,23 @@ export const AuthContextProvider = ({ children }) => {
 
   const fetchUserProfile = async () => {
     try {
-        const token = localStorage.getItem("token") || "";
+      const token = localStorage.getItem("token") || "";
 
-        if (!token) return 
-          
-        const response = await axiosClient.get("/auth/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = response.data;
-        dispatch(setUser(data));
+      if (!token) return null
+
+      const response = await axiosClient.get("/auth/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = response.data;
+      dispatch(setUser(data));
+      return data;
     } catch (e) {
-        toast.error(e.response?.data?.detail || e.message);
-    } finally{
-        setLoading(false);
+      toast.error(e.response?.data?.detail || e.message);
+      return null;
+    } finally {
+      setLoading(false);
     }
   };
 

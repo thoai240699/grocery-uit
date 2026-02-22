@@ -24,6 +24,8 @@ import WishList from './pages/WishListPage'
 import CheckoutPage from './pages/CheckoutPage'
 import SuccessPage from './pages/CheckoutPage/SuccessPage'
 import FailedPage from './pages/CheckoutPage/FailedPage'
+import OrdersPage from './pages/Orders'
+import StaffOrdersPage from './pages/Orders/StaffOrders'
 
 const App = () => {
   return (
@@ -44,12 +46,14 @@ const App = () => {
               <Route path='checkout' element={<CheckoutPage />} />
               <Route path='checkout/success' element={<SuccessPage />} />
               <Route path='checkout/failed' element={<FailedPage />} />
+              <Route path='/orders' element={<OrdersPage />} />
             </Route>
 
             <Route element={<RoleLayout role={"staff"} />}>
               <Route path="AddProduct" element={<AddProduct />} />
               <Route path="AddProductCategories" element={<AddProductCategories />} />
               <Route path="AllProduct" element={<AllProducts />} />
+              <Route path="staff/orders" element={<StaffOrdersPage />} />
             </Route>
 
             <Route element={<RoleLayout role={"admin"} />}>
