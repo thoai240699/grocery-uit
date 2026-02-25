@@ -17,7 +17,6 @@ import AllProducts from './pages/Products/AllProduct'
 import RoleLayout from './layout/RoleLayout'
 import ChatPage from './pages/ChatPage'
 import ProductPage from './pages/ProductPage'
-import AdminAllProducts from './pages/Products/AdminAllProduct'
 import Employees from './pages/EmployeePage'
 import Customers from './pages/CustomerPage'
 import WishList from './pages/WishListPage'
@@ -26,6 +25,7 @@ import SuccessPage from './pages/CheckoutPage/SuccessPage'
 import FailedPage from './pages/CheckoutPage/FailedPage'
 import OrdersPage from './pages/Orders'
 import StaffOrdersPage from './pages/Orders/StaffOrders'
+import AllProducts2 from './pages/Products2/AdminAllProducts'
 
 const App = () => {
   return (
@@ -57,7 +57,7 @@ const App = () => {
             </Route>
 
             <Route element={<RoleLayout role={"admin"} />}>
-              <Route path="AdminAllProduct" element={<AdminAllProducts />} />
+              <Route path="AdminAllProducts" element={<AllProducts2 />} />
               <Route path="Employees" element={<Employees />} />
               <Route path="Customers" element={<Customers />} />
             </Route>

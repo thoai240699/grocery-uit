@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 def call_qwen(prompt):
     url = "http://localhost:11434/api/generate"
     data = {
-        "model": "qwen2.5:0.5b",
+        "model": "qwen3:0.6b",
         "prompt": prompt,
         "stream": False
     }

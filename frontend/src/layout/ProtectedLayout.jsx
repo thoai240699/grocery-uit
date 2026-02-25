@@ -144,7 +144,7 @@ const ProtectedLayout = () => {
                   icon={<MdProductionQuantityLimits className="text-2xl text-orange-600" />}
                 >
                   <MenuItem
-                  // component={<Link to="/AdminAllProducts" />}
+                  component={<Link to="/AdminAllProducts" />}
                   >
                     Tất cả sản phẩm
                   </MenuItem>
