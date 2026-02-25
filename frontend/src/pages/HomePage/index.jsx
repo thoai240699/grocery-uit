@@ -42,7 +42,7 @@ const HomePage = () => {
       const params = {}
       if (filters.page) params.page = parseInt(filters.page)
       if (filters.limit) params.limit = parseInt(filters.limit)
-      if (filters.category && filters.category.trim()) params.category = filters.category.trim()
+      if (filters.category && filters.category.trim()) params.category_id = filters.category.trim()
       if (filters.q && filters.q.trim()) params.q = filters.q.trim()
       if (filters.min_price) params.min_price = Math.floor(Number(filters.min_price))
       if (filters.max_price) params.max_price = Math.floor(Number(filters.max_price))
@@ -137,10 +137,10 @@ const HomePage = () => {
                       <button
                         key={cat.id}
                         onClick={() => {
-                          setFilters(prev => ({ ...prev, category: cat.name, page: 1 }))
+                          setFilters(prev => ({ ...prev, category: cat.id, page: 1 }))
                           setActiveCategory(cat.name)
                         }}
-                        className={`w-full px-4 py-3 rounded-xl text-left font-medium transition-all duration-300 ${filters.category === cat.name
+                        className={`w-full px-4 py-3 rounded-xl text-left font-medium transition-all duration-300 ${filters.category === cat.id
                           ? 'bg-linear-to-r from-blue-500 to-purple-500 text-white shadow-lg shadow-purple-500/30'
                           : 'text-gray-700 hover:bg-gray-50'
                           }`}

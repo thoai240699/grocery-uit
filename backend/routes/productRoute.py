@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 def list_products(
     page: int = Query(1, ge=1),
     limit: int = Query(10, le=100),
+    category_id: str | None = Query(None, description="Category id"),
     category: str | None = Query(None, description="Category name"),
     q: str | None = None,
     min_price: float | None = None,
@@ -26,6 +27,7 @@ def list_products(
         return get_products(
             page=page,
             limit=limit,
+            category_id=category_id,
             category=category,
             q=q,
             min_price=min_price,

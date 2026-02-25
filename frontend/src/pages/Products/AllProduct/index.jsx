@@ -33,7 +33,7 @@ const AllProducts = () => {
             const params = {}
             if (filters.page) params.page = parseInt(filters.page)
             if (filters.limit) params.limit = parseInt(filters.limit)
-            if (filters.category && filters.category.trim()) params.category = filters.category.trim()
+            if (filters.category && filters.category.trim()) params.category_id = filters.category.trim()
             if (filters.q && filters.q.trim()) params.q = filters.q.trim()
             if (filters.min_price) params.min_price = Math.floor(Number(filters.min_price))
             if (filters.max_price) params.max_price = Math.floor(Number(filters.max_price))
@@ -189,9 +189,9 @@ const AllProducts = () => {
                                     {categories.map((cat) => (
                                         <button
                                             key={cat.id}
-                                            onClick={() => setFilters(prev => ({ ...prev, category: cat.name, page: 1 }))}
+                                            onClick={() => setFilters(prev => ({ ...prev, category: cat.id, page: 1 }))}
                                             className={`w-full px-4 py-2.5 rounded-lg text-left font-medium transition-all ${
-                                                filters.category === cat.name
+                                                filters.category === cat.id
                                                     ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
                                                     : 'text-gray-700 hover:bg-gray-50'
                                             }`}

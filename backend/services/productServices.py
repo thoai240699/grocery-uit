@@ -15,6 +15,7 @@ def add_profile_to_product(product):
 def get_products(**filters):
     page = filters.get("page", 1)
     limit = filters.get("limit", 10)
+    category_id = filters.get("category_id")
     category = filters.get("category")
     q = filters.get("q")
     min_price = filters.get("min_price")
@@ -35,8 +36,36 @@ def get_products(**filters):
         .range(start, end)
     )
 
-    if category:
-        query = query.ilike("categories.name", category)
+    if category_id:
+        query = query.eq("category_id", category_id)
+    elif category:
+        by_name = (
+            client
+            .table("categories")
+            .select("id")
+            .ilike("name", category)
+            .execute()
+        )
+        category_ids = [item["id"] for item in (by_name.data or [])]
+
+        if not category_ids:
+            by_slug = (
+                client
+                .table("categories")
+                .select("id")
+                .ilike("slug", category)
+                .execute()
+            )
+            category_ids = [item["id"] for item in (by_slug.data or [])]
+
+        if not category_ids:
+            return {
+                "page": page,
+                "limit": limit,
+                "total": 0,
+                "items": []
+            }
+        query = query.in_("category_id", category_ids)
 
     if q:
         query = query.ilike("name", f"%{q}%")
